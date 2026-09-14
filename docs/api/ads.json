@@ -1,0 +1,2560 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ads API",
+        "description": "\n",
+        "contact": {
+            "name": "Uplify Support",
+            "url": "https://streamstack.cc",
+            "email": "support@uplify.us"
+        },
+        "license": {
+            "name": "Proprietary",
+            "url": "https://streamstack.cc"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://staging.streamstack.cc",
+            "description": "Staging"
+        },
+        {
+            "url": "https://streamstack.cc",
+            "description": "Production"
+        }
+    ],
+    "paths": {
+        "/api/v1/ads/brand_awareness/ad/{slug}": {
+            "get": {
+                "tags": [
+                    "Ads Creative"
+                ],
+                "summary": "Get Brand Awareness ad creative",
+                "description": "Returns the full creative payload for a Brand Awareness ad by its slug. Used by the OBS widget overlay to render the ad. The `impression_slug` will be null (not set, as this is a preview endpoint), and `viewers_count` will be 0.",
+                "operationId": "adsBrandAwarenessCreative",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Ad creative slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "BA-CRV-1741358023"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brand Awareness creative",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Ad ID",
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "ad_set": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "slug": {
+                                                            "type": "string",
+                                                            "example": "BA-GRP-1741358023"
+                                                        },
+                                                        "format": {
+                                                            "description": "Ad format code: video, pip_video, leaderboard, custom, google_ad_manager, yandex_fs, yandex_pf, yandex_text",
+                                                            "type": "string",
+                                                            "example": "video"
+                                                        },
+                                                        "frequency": {
+                                                            "description": "Display frequency in minutes",
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        },
+                                                        "make_screenshots": {
+                                                            "description": "Whether the widget should take screenshots for proof-of-display",
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        },
+                                                        "campaign": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "slug": {
+                                                                    "type": "string",
+                                                                    "example": "BA-CMP-1741358023"
+                                                                },
+                                                                "type": {
+                                                                    "description": "Campaign type code",
+                                                                    "type": "string",
+                                                                    "example": "brand_awareness"
+                                                                },
+                                                                "ord_markup": {
+                                                                    "description": "ORD ERID token for Russian ad labeling (null if not applicable)",
+                                                                    "type": "string",
+                                                                    "example": "2VtzqvL6DRb",
+                                                                    "nullable": true
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "advertiser": {
+                                                            "properties": {
+                                                                "legal_name": {
+                                                                    "type": "string",
+                                                                    "example": "Nike LLC",
+                                                                    "nullable": true
+                                                                },
+                                                                "tin": {
+                                                                    "description": "Advertiser Tax Identification Number",
+                                                                    "type": "string",
+                                                                    "example": "7710044140",
+                                                                    "nullable": true
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "impression_slug": {
+                                                    "description": "Impression tracking slug — null on this preview endpoint",
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "BA-CRV-1741358023"
+                                                },
+                                                "attachments": {
+                                                    "description": "Media assets — structure depends on the ad format",
+                                                    "properties": {
+                                                        "video": {
+                                                            "description": "Present for video/pip_video formats",
+                                                            "properties": {
+                                                                "path": {
+                                                                    "type": "string",
+                                                                    "example": "https://storage.googleapis.com/uplify/ba/nike.mp4"
+                                                                },
+                                                                "size": {
+                                                                    "type": "integer",
+                                                                    "example": 3867038
+                                                                },
+                                                                "properties": {
+                                                                    "properties": {
+                                                                        "duration": {
+                                                                            "type": "integer",
+                                                                            "example": 15
+                                                                        },
+                                                                        "width": {
+                                                                            "type": "integer",
+                                                                            "example": 1920
+                                                                        },
+                                                                        "height": {
+                                                                            "type": "integer",
+                                                                            "example": 1080
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "extend": {
+                                                                    "properties": {
+                                                                        "legal_compliance": {
+                                                                            "properties": {
+                                                                                "erid": {
+                                                                                    "properties": {
+                                                                                        "value": {
+                                                                                            "type": "string",
+                                                                                            "example": "2VtzqvL6DRb",
+                                                                                            "nullable": true
+                                                                                        },
+                                                                                        "visible": {
+                                                                                            "type": "boolean",
+                                                                                            "example": true
+                                                                                        }
+                                                                                    },
+                                                                                    "type": "object"
+                                                                                },
+                                                                                "marker": {
+                                                                                    "properties": {
+                                                                                        "value": {
+                                                                                            "type": "string",
+                                                                                            "example": "Реклама",
+                                                                                            "nullable": true
+                                                                                        },
+                                                                                        "visible": {
+                                                                                            "type": "boolean",
+                                                                                            "example": true
+                                                                                        }
+                                                                                    },
+                                                                                    "type": "object"
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        },
+                                                        "unit": {
+                                                            "description": "Present for pip_video format (companion image)",
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        },
+                                                        "zip": {
+                                                            "description": "Present for custom format (ZIP archive with HTML creative)",
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "qr_code": {
+                                                    "description": "Whether to render a QR code overlay",
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "companion_cta": {
+                                                    "description": "Call-to-action text shown alongside the ad",
+                                                    "type": "string",
+                                                    "example": "Tap to learn more"
+                                                },
+                                                "qr_link": {
+                                                    "description": "URL encoded in the QR code / click-through link",
+                                                    "type": "string",
+                                                    "example": "https://nike.com/spring"
+                                                },
+                                                "pixel_impressions": {
+                                                    "description": "Pixel tracker URLs to fire on impression",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "https://track.example.com/imp?id=abc123"
+                                                    }
+                                                },
+                                                "viewers_count": {
+                                                    "description": "Current viewer count — 0 on this preview endpoint",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ad slug not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/ads/special_project/ad/{slug}": {
+            "get": {
+                "tags": [
+                    "Ads Creative"
+                ],
+                "summary": "Get Special Project ad creative",
+                "description": "Returns the full creative payload for a Special Project ad by its slug. Used by the OBS widget overlay to render the special project ad. Note: the URL path uses `special_project` (a legacy typo — the actual route is `/api/v1/ads/special_project/ad/{slug}`). The `impression_slug` is always null and `viewers_count` is always 0 on this endpoint.",
+                "operationId": "adsSpecialProjectCreative",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Special Project ad creative slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "SP-CRV-V-1741358023"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Special Project creative",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Ad ID",
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "ad_set": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "slug": {
+                                                            "type": "string",
+                                                            "example": "SP-GRP-1741358023"
+                                                        },
+                                                        "format": {
+                                                            "description": "Special project format code: sp_fullscreen, sp_pip, sp_widget",
+                                                            "type": "string",
+                                                            "example": "sp_fullscreen"
+                                                        },
+                                                        "frequency": {
+                                                            "description": "Display frequency in minutes",
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        },
+                                                        "duration": {
+                                                            "description": "Display duration in seconds",
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        },
+                                                        "make_screenshots": {
+                                                            "type": "boolean",
+                                                            "example": false
+                                                        },
+                                                        "campaign": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "slug": {
+                                                                    "type": "string",
+                                                                    "example": "SP-CMP-1741358023"
+                                                                },
+                                                                "type": {
+                                                                    "type": "string",
+                                                                    "example": "special_project"
+                                                                },
+                                                                "ord_markup": {
+                                                                    "description": "ORD ERID token for Russian ad labeling",
+                                                                    "type": "string",
+                                                                    "example": "2VtzqvL6DRb",
+                                                                    "nullable": true
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "advertiser": {
+                                                            "properties": {
+                                                                "legal_name": {
+                                                                    "type": "string",
+                                                                    "example": "Nike LLC",
+                                                                    "nullable": true
+                                                                },
+                                                                "tin": {
+                                                                    "type": "string",
+                                                                    "example": "7710044140",
+                                                                    "nullable": true
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "impression_slug": {
+                                                    "description": "Always null on this preview endpoint",
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "SP-CRV-V-1741358023"
+                                                },
+                                                "attachments": {
+                                                    "description": "Media assets — structure depends on the special project format",
+                                                    "properties": {
+                                                        "video": {
+                                                            "description": "Present for sp_fullscreen format",
+                                                            "properties": {
+                                                                "path": {
+                                                                    "type": "string",
+                                                                    "example": "https://storage.googleapis.com/uplify/sp/nike-spring.mp4"
+                                                                },
+                                                                "size": {
+                                                                    "type": "integer",
+                                                                    "example": 3867038
+                                                                },
+                                                                "properties": {
+                                                                    "properties": {
+                                                                        "duration": {
+                                                                            "type": "integer",
+                                                                            "example": 15
+                                                                        },
+                                                                        "width": {
+                                                                            "type": "integer",
+                                                                            "example": 1920
+                                                                        },
+                                                                        "height": {
+                                                                            "type": "integer",
+                                                                            "example": 1080
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        },
+                                                        "unit": {
+                                                            "description": "Companion image for sp_pip format",
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        },
+                                                        "zip": {
+                                                            "description": "ZIP archive for sp_widget format",
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "qr_code": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "companion_cta": {
+                                                    "description": "Call-to-action / chatbot text",
+                                                    "type": "string",
+                                                    "example": "Tap to learn more"
+                                                },
+                                                "qr_link": {
+                                                    "type": "string",
+                                                    "example": "https://nike.com/spring"
+                                                },
+                                                "pixel_impressions": {
+                                                    "description": "Pixel tracker URLs to fire on impression",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "https://track.example.com/imp?id=abc123"
+                                                    }
+                                                },
+                                                "viewers_count": {
+                                                    "description": "Always 0 on this preview endpoint",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ad slug not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/ads/special_project/auction/{widget_slug}/{adset_slug}": {
+            "get": {
+                "tags": [
+                    "Special Project Widget"
+                ],
+                "summary": "Run auction and get ad creative",
+                "description": "Checks campaign availability and returns a randomly selected ad creative for the given streamer widget and special project ad set. Called by the OBS widget overlay to determine which ad to display. Returns `status: false` with an empty `data` array if the campaign is unavailable for this streamer.",
+                "operationId": "adsSpecialProjectAuction",
+                "parameters": [
+                    {
+                        "name": "widget_slug",
+                        "in": "path",
+                        "description": "Streamer's OBS widget slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "WGT-1741358023"
+                        }
+                    },
+                    {
+                        "name": "adset_slug",
+                        "in": "path",
+                        "description": "Special project ad set slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "SP-GRP-1741358023"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Auction result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "true = ad available, false = unavailable",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "description": "Empty array [] when status=false",
+                                            "properties": {
+                                                "stream": {
+                                                    "description": "Current live stream context",
+                                                    "properties": {
+                                                        "id": {
+                                                            "description": "Platform stream ID",
+                                                            "type": "string",
+                                                            "example": "123456789"
+                                                        },
+                                                        "viewers": {
+                                                            "description": "Current viewer count",
+                                                            "type": "integer",
+                                                            "example": 1500
+                                                        },
+                                                        "category": {
+                                                            "description": "Stream game/category",
+                                                            "type": "string",
+                                                            "example": "Gaming"
+                                                        },
+                                                        "title": {
+                                                            "description": "Stream title",
+                                                            "type": "string",
+                                                            "example": "S.T.A.L.K.E.R. прохождение"
+                                                        },
+                                                        "gender": {
+                                                            "description": "Streamer gender: male, female, other",
+                                                            "type": "string",
+                                                            "example": "male"
+                                                        },
+                                                        "keywords": {
+                                                            "description": "Keywords from stream title, game, and tags",
+                                                            "type": "string",
+                                                            "example": "ninja стримит Fortnite Название: Win or die Теги: FPS"
+                                                        },
+                                                        "domain": {
+                                                            "description": "Streaming platform domain",
+                                                            "type": "string",
+                                                            "example": "twitch.tv"
+                                                        },
+                                                        "page": {
+                                                            "description": "Streamer's channel URL",
+                                                            "type": "string",
+                                                            "example": "https://www.twitch.tv/ninja"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "items": {
+                                                    "description": "Array containing exactly one randomly selected ad creative",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 5
+                                                            },
+                                                            "ad_set": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 10
+                                                                    },
+                                                                    "slug": {
+                                                                        "type": "string",
+                                                                        "example": "SP-GRP-1741358023"
+                                                                    },
+                                                                    "format": {
+                                                                        "description": "Ad format code",
+                                                                        "type": "string",
+                                                                        "example": "sp_fullscreen"
+                                                                    },
+                                                                    "frequency": {
+                                                                        "description": "Display frequency in minutes",
+                                                                        "type": "integer",
+                                                                        "example": 15
+                                                                    },
+                                                                    "duration": {
+                                                                        "description": "Display duration in seconds",
+                                                                        "type": "integer",
+                                                                        "example": 15
+                                                                    },
+                                                                    "make_screenshots": {
+                                                                        "type": "boolean",
+                                                                        "example": false
+                                                                    },
+                                                                    "campaign": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "integer",
+                                                                                "example": 1
+                                                                            },
+                                                                            "slug": {
+                                                                                "type": "string",
+                                                                                "example": "SP-CMP-1741358023"
+                                                                            },
+                                                                            "type": {
+                                                                                "type": "string",
+                                                                                "example": "special_project"
+                                                                            },
+                                                                            "ord_markup": {
+                                                                                "description": "ORD ERID token for Russian ad labeling",
+                                                                                "type": "string",
+                                                                                "example": "2VtzqvL6DRb",
+                                                                                "nullable": true
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "advertiser": {
+                                                                        "properties": {
+                                                                            "legal_name": {
+                                                                                "type": "string",
+                                                                                "example": "Nike LLC",
+                                                                                "nullable": true
+                                                                            },
+                                                                            "tin": {
+                                                                                "type": "string",
+                                                                                "example": "7710044140",
+                                                                                "nullable": true
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "impression_slug": {
+                                                                "description": "Impression tracking slug (null for special project)",
+                                                                "type": "string",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "slug": {
+                                                                "type": "string",
+                                                                "example": "SP-CRV-V-1741358023"
+                                                            },
+                                                            "attachments": {
+                                                                "description": "Media assets — structure depends on the special project format",
+                                                                "properties": {
+                                                                    "video": {
+                                                                        "description": "Present for sp_fullscreen format",
+                                                                        "properties": {
+                                                                            "path": {
+                                                                                "type": "string",
+                                                                                "example": "https://storage.googleapis.com/uplify/sp/nike-spring.mp4"
+                                                                            },
+                                                                            "size": {
+                                                                                "type": "integer",
+                                                                                "example": 3867038
+                                                                            },
+                                                                            "properties": {
+                                                                                "properties": {
+                                                                                    "duration": {
+                                                                                        "type": "integer",
+                                                                                        "example": 15
+                                                                                    },
+                                                                                    "width": {
+                                                                                        "type": "integer",
+                                                                                        "example": 1920
+                                                                                    },
+                                                                                    "height": {
+                                                                                        "type": "integer",
+                                                                                        "example": 1080
+                                                                                    }
+                                                                                },
+                                                                                "type": "object"
+                                                                            }
+                                                                        },
+                                                                        "type": "object",
+                                                                        "nullable": true
+                                                                    },
+                                                                    "unit": {
+                                                                        "description": "Companion image for sp_pip format",
+                                                                        "type": "object",
+                                                                        "nullable": true
+                                                                    },
+                                                                    "zip": {
+                                                                        "description": "ZIP archive for sp_widget format",
+                                                                        "type": "object",
+                                                                        "nullable": true
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "qr_code": {
+                                                                "description": "Whether to render a QR code on the overlay",
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "companion_cta": {
+                                                                "description": "Call-to-action text shown alongside the ad",
+                                                                "type": "string",
+                                                                "example": "Tap to learn more"
+                                                            },
+                                                            "qr_link": {
+                                                                "description": "URL encoded in the QR code / click-through link",
+                                                                "type": "string",
+                                                                "example": "https://nike.com/spring"
+                                                            },
+                                                            "pixel_impressions": {
+                                                                "description": "Pixel tracker URLs to fire on impression",
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string",
+                                                                    "example": "https://track.example.com/imp?id=abc123"
+                                                                }
+                                                            },
+                                                            "viewers_count": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Widget slug or ad set slug not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/ads/special_project/auction/{widget_slug}/{adset_slug}/check": {
+            "get": {
+                "tags": [
+                    "Special Project Widget"
+                ],
+                "summary": "Check if the special project campaign is available",
+                "description": "Lightweight availability check — verifies that the campaign is active, not expired, and that this streamer is in the targeting list. Use this before triggering the widget overlay to avoid unnecessary auction calls.",
+                "operationId": "adsSpecialProjectCheck",
+                "parameters": [
+                    {
+                        "name": "widget_slug",
+                        "in": "path",
+                        "description": "Streamer's OBS widget slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "WGT-1741358023"
+                        }
+                    },
+                    {
+                        "name": "adset_slug",
+                        "in": "path",
+                        "description": "Special project ad set slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "SP-GRP-1741358023"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Availability result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "true = campaign is available for this streamer, false = unavailable",
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Widget slug or ad set slug not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/ads/widget/demo": {
+            "get": {
+                "tags": [
+                    "Ads Streamer"
+                ],
+                "summary": "Trigger demo ad",
+                "description": "Dispatches a demo advertising event for the authenticated streamer's widget. Used from the streamer panel to preview how the ad overlay will look.",
+                "operationId": "adsWidgetDemo",
+                "responses": {
+                    "200": {
+                        "description": "Demo ad triggered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "messages": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "field": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "text": {
+                                                        "type": "string",
+                                                        "example": "Advertising request registered"
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "ADS_SUCCESS_REGISTER"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Not a streamer account"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/widget/referral/demo": {
+            "get": {
+                "tags": [
+                    "Ads Streamer"
+                ],
+                "summary": "Trigger demo referral ad",
+                "description": "Dispatches a demo referral advertising event for the authenticated streamer's widget. Used to preview the referral overlay.",
+                "operationId": "adsWidgetDemoReferral",
+                "responses": {
+                    "200": {
+                        "description": "Demo referral ad triggered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "messages": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "field": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "text": {
+                                                        "type": "string",
+                                                        "example": "Advertising request registered"
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "ADS_SUCCESS_REGISTER"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Not a streamer account"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/widget/manual": {
+            "get": {
+                "tags": [
+                    "Ads Streamer"
+                ],
+                "summary": "Trigger manual ad",
+                "description": "Manually triggers an ad for the authenticated streamer's widget. The widget must be in manual mode (`advertising_mode: manual`) and `ad_manual_enable` must be true. After a successful trigger, `ad_manual_enable` is reset to false until the next auction cycle completes.",
+                "operationId": "adsWidgetManual",
+                "responses": {
+                    "200": {
+                        "description": "Manual ad result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "true = manual ad dispatched, false = error",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "messages": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "field": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "text": {
+                                                        "type": "string",
+                                                        "example": "Launching ads in manual mode"
+                                                    },
+                                                    "code": {
+                                                        "description": "Success: ADS_SUCCESS_RUN_MANUAL_MODE. Errors: ADS_ERRORS_MODE_AUTO (widget is in auto mode), ADS_ERRORS_DISABLE (manual trigger disabled), ADS_ERRORS_REQUIRES (requirements not met), ADS_ERRORS_EMPTY (no active campaigns)",
+                                                        "type": "string",
+                                                        "example": "ADS_SUCCESS_RUN_MANUAL_MODE"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Not a streamer account"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/widget/{widget}": {
+            "get": {
+                "tags": [
+                    "Ads Widget"
+                ],
+                "summary": "Get widget runtime parameters",
+                "description": "Returns full widget configuration and streamer profile used by the OBS overlay at startup. Includes widget/bot/stream statuses, advertising settings, platform accounts, and NightBot info.",
+                "operationId": "adsWidgetParams",
+                "parameters": [
+                    {
+                        "name": "widget",
+                        "in": "path",
+                        "description": "Widget slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "WGT-1741358023"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Widget parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "widget": {
+                                            "description": "Widget is enabled",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "bot": {
+                                            "description": "ChatBot is enabled",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "stream": {
+                                            "description": "Stream is currently live",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "url": {
+                                                    "description": "Public OBS widget URL",
+                                                    "type": "string",
+                                                    "example": "https://streamstack.cc/widget/WGT-1741358023"
+                                                },
+                                                "slug_obs_dock": {
+                                                    "description": "Encrypted slug for the OBS Dock (regenerated on refresh)",
+                                                    "type": "string",
+                                                    "example": "eyJpdiI6Im..."
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "WGT-1741358023"
+                                                },
+                                                "platform": {
+                                                    "description": "Active streaming platform: twitch, youtube, trovo, vklive, vkplay, instagram, tiktok",
+                                                    "type": "string",
+                                                    "example": "twitch"
+                                                },
+                                                "box_size": {
+                                                    "description": "Ad overlay box size in pixels",
+                                                    "type": "integer",
+                                                    "example": 300
+                                                },
+                                                "referral_promotion": {
+                                                    "description": "Whether the streamer has referral promotion enabled",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "stream_delay": {
+                                                    "description": "Stream delay in seconds (0-1800)",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "advertising_mode": {
+                                                    "description": "Ad mode: auto or manual",
+                                                    "type": "string",
+                                                    "example": "auto"
+                                                },
+                                                "advertising_frequency": {
+                                                    "description": "Ad frequency in minutes: 5, 10, 15, 30, 60",
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "advertising_position": {
+                                                    "description": "Ad overlay position on screen",
+                                                    "type": "string",
+                                                    "example": "right_top_corner"
+                                                },
+                                                "leaderboard_position": {
+                                                    "description": "Leaderboard banner position: top or bottom",
+                                                    "type": "string",
+                                                    "example": "bottom"
+                                                },
+                                                "ad_manual_enable": {
+                                                    "description": "Manual ad trigger is currently enabled (resets after each trigger)",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "ignore_categories": {
+                                                    "description": "List of campaign category IDs the streamer has excluded",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "widget_active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "bot_active": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "stream_active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "extension_active": {
+                                                    "description": "Twitch extension is active",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "brandis_extension_active": {
+                                                    "description": "Brandis Twitch extension is active",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_twitch_connected": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_twitch_moderator": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_youtube_connected": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_youtube_moderator": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_trovo_connected": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_trovo_moderator": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_vkplay_connected": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_vkplay_moderator": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_instagram_connected": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_instagram_moderator": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_tiktok_connected": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "nightbot_tiktok_moderator": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "ssp_text_frequency": {
+                                                    "description": "Number of chatbot text inserts per impression",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "allow_adult_content": {
+                                                    "description": "Streamer allows adult-category ads",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "obs_socket_port": {
+                                                    "description": "OBS WebSocket port",
+                                                    "type": "integer",
+                                                    "example": 4455,
+                                                    "nullable": true
+                                                },
+                                                "obs_socket_pass": {
+                                                    "description": "OBS WebSocket password",
+                                                    "type": "string",
+                                                    "example": "secret",
+                                                    "nullable": true
+                                                },
+                                                "streamer": {
+                                                    "description": "Streamer profile snapshot",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 42
+                                                        },
+                                                        "nickname": {
+                                                            "type": "string",
+                                                            "example": "ninja"
+                                                        },
+                                                        "locale_code": {
+                                                            "type": "string",
+                                                            "example": "en"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "twitch": {
+                                                    "description": "Linked Twitch account (null if not connected)",
+                                                    "properties": {
+                                                        "nickname": {
+                                                            "type": "string",
+                                                            "example": "ninja"
+                                                        },
+                                                        "channel_id": {
+                                                            "type": "string",
+                                                            "example": "19571641"
+                                                        }
+                                                    },
+                                                    "type": "object",
+                                                    "nullable": true
+                                                },
+                                                "youtube": {
+                                                    "description": "Linked YouTube account (null if not connected)",
+                                                    "properties": {
+                                                        "nickname": {
+                                                            "type": "string",
+                                                            "example": "NinjasHyper"
+                                                        },
+                                                        "channel_id": {
+                                                            "type": "string",
+                                                            "example": "UC-XXXXXXXXXXXXXXXXXXX"
+                                                        }
+                                                    },
+                                                    "type": "object",
+                                                    "nullable": true
+                                                },
+                                                "trovo": {
+                                                    "description": "Linked Trovo account (null if not connected)",
+                                                    "type": "object",
+                                                    "nullable": true
+                                                },
+                                                "vklive": {
+                                                    "description": "Linked VK Live account (null if not connected)",
+                                                    "type": "object",
+                                                    "nullable": true
+                                                },
+                                                "vkplay": {
+                                                    "description": "Linked VK Play account (null if not connected)",
+                                                    "type": "object",
+                                                    "nullable": true
+                                                },
+                                                "instagram": {
+                                                    "description": "Linked Instagram account (null if not connected)",
+                                                    "type": "object",
+                                                    "nullable": true
+                                                },
+                                                "tiktok": {
+                                                    "description": "Linked TikTok account (null if not connected)",
+                                                    "type": "object",
+                                                    "nullable": true
+                                                },
+                                                "relogin": {
+                                                    "description": "true if the streamer needs to re-authenticate on the platform",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "bs_required": {
+                                                    "description": "true if the streamer's country requires Brand Safety category filtering",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "version": {
+                                                    "description": "Widget JS version",
+                                                    "type": "string",
+                                                    "example": "1.5"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "messages": {
+                                            "description": "Non-empty when one or more statuses are false (e.g. 'Widget is disable', 'Stream is offline')",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Stream is offline"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Widget slug not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/ads/widget/{widget}/auto": {
+            "get": {
+                "tags": [
+                    "Ads Widget"
+                ],
+                "summary": "Trigger automatic ad auction",
+                "description": "Initiates an automatic ad auction for the given widget. The widget is set to auto mode, stream status is updated, and a background auction job is dispatched. Returns success if the auction was registered, or an error code if the widget is blocked, requirements are not met, or there are no active campaigns.",
+                "operationId": "adsWidgetAuto",
+                "parameters": [
+                    {
+                        "name": "widget",
+                        "in": "path",
+                        "description": "Widget slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "WGT-1741358023"
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "in": "query",
+                        "description": "Overlay height in pixels",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1080
+                        }
+                    },
+                    {
+                        "name": "width",
+                        "in": "query",
+                        "description": "Overlay width in pixels",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1920
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Auction result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "true = auction registered, false = error",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "messages": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "field": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "text": {
+                                                        "type": "string",
+                                                        "example": "Advertising request registered"
+                                                    },
+                                                    "code": {
+                                                        "description": "Success: ADS_SUCCESS_REGISTER. Errors: ADS_ERRORS_BLOCKED, ADS_ERRORS_REQUIRES, ADS_ERRORS_EMPTY",
+                                                        "type": "string",
+                                                        "example": "ADS_SUCCESS_REGISTER"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Widget slug not found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Ads Widget"
+                ],
+                "summary": "Trigger automatic ad auction (POST)",
+                "description": "Same as GET — initiates an automatic ad auction. POST is supported to allow passing height/width in the request body.",
+                "operationId": "adsWidgetAutoPost",
+                "parameters": [
+                    {
+                        "name": "widget",
+                        "in": "path",
+                        "description": "Widget slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "WGT-1741358023"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "height": {
+                                        "description": "Overlay height in pixels",
+                                        "type": "integer",
+                                        "example": 1080
+                                    },
+                                    "width": {
+                                        "description": "Overlay width in pixels",
+                                        "type": "integer",
+                                        "example": 1920
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Auction result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "messages": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "field": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "text": {
+                                                        "type": "string",
+                                                        "example": "Advertising request registered"
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "ADS_SUCCESS_REGISTER"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Widget slug not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/ads/widget/{widget}/referral": {
+            "get": {
+                "tags": [
+                    "Ads Widget"
+                ],
+                "summary": "Trigger referral ad",
+                "description": "Dispatches a referral ad event for the given widget. Returns an error if the streamer does not have referral promotion enabled.",
+                "operationId": "adsWidgetReferral",
+                "parameters": [
+                    {
+                        "name": "widget",
+                        "in": "path",
+                        "description": "Widget slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "WGT-1741358023"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Referral ad result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "messages": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "field": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "text": {
+                                                        "type": "string",
+                                                        "example": "Advertising request registered"
+                                                    },
+                                                    "code": {
+                                                        "description": "Success: ADS_SUCCESS_REGISTER. Error: ADS_ERRORS_REQUIRES (referral promotion not enabled)",
+                                                        "type": "string",
+                                                        "example": "ADS_SUCCESS_REGISTER"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Widget slug not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ErrorMessage": {
+                "properties": {
+                    "field": {
+                        "description": "Field name that caused the error, or null for general errors",
+                        "type": "string",
+                        "example": "title",
+                        "nullable": true
+                    },
+                    "text": {
+                        "description": "Human-readable error message",
+                        "type": "string",
+                        "example": "The title field is required."
+                    },
+                    "code": {
+                        "description": "Machine-readable error code",
+                        "type": "string",
+                        "example": "TITLE_REQUIRED"
+                    }
+                },
+                "type": "object"
+            },
+            "ErrorResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationMeta": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "total": {
+                        "description": "Total number of records",
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "per_page": {
+                        "description": "Number of records per page",
+                        "type": "integer",
+                        "example": 20
+                    }
+                },
+                "type": "object"
+            },
+            "Campaign": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slug": {
+                        "description": "Campaign slug (format: {TYPE}-CMP-{timestamp}, e.g. BA-CMP, PF-CMP, VOD-CMP, EXT-CMP)",
+                        "type": "string",
+                        "example": "BA-CMP-1741358023"
+                    },
+                    "type": {
+                        "description": "Campaign type code",
+                        "type": "string",
+                        "example": "video"
+                    },
+                    "type_edit": {
+                        "description": "Whether campaign type can be changed (true if no ad sets yet)",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Summer Gaming Campaign"
+                    },
+                    "title_alternative": {
+                        "type": "string",
+                        "example": "Летняя кампания",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Brand awareness for gaming product launch"
+                    },
+                    "affiliate_network": {
+                        "description": "Affiliate network data",
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "category": {
+                        "description": "Campaign category",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Gaming"
+                            },
+                            "icon": {
+                                "type": "string",
+                                "example": "gaming-icon.svg"
+                            },
+                            "is_dark_market": {
+                                "type": "boolean",
+                                "example": false
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "holding": {
+                        "description": "Holding (advertiser group)",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Big Brand Holding"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": ""
+                            },
+                            "logo": {
+                                "type": "string",
+                                "example": "https://storage.googleapis.com/uplify/holdings/logo.png",
+                                "nullable": true
+                            },
+                            "advertisers": {
+                                "description": "Number of advertisers in this holding",
+                                "type": "integer",
+                                "example": 3
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "advertiser": {
+                        "description": "Advertiser",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 10
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Cool Brand Ltd"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": ""
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "media_agency": {
+                        "description": "Media agency",
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "start": {
+                        "description": "Campaign start date",
+                        "type": "string",
+                        "example": "2024-06-01",
+                        "nullable": true
+                    },
+                    "end": {
+                        "description": "Campaign end date",
+                        "type": "string",
+                        "example": "2024-08-31",
+                        "nullable": true
+                    },
+                    "time_zone": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "impressions": {
+                        "description": "Current impression count",
+                        "type": "integer",
+                        "example": 12500
+                    },
+                    "total_impressions": {
+                        "description": "Total purchased impressions",
+                        "type": "integer",
+                        "example": 50000
+                    },
+                    "budget": {
+                        "description": "Current spend",
+                        "type": "number",
+                        "format": "float",
+                        "example": 150
+                    },
+                    "total_budget": {
+                        "description": "Total campaign budget",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000
+                    },
+                    "avg_cpm": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 3.5
+                    },
+                    "channels": {
+                        "description": "Unique streamer channels count",
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "clicks": {
+                        "type": "integer",
+                        "example": 87
+                    },
+                    "ctr": {
+                        "description": "Click-through rate, percent",
+                        "type": "number",
+                        "format": "float",
+                        "example": 0.7
+                    },
+                    "reach": {
+                        "description": "Unique viewers reached",
+                        "type": "integer",
+                        "example": 5000
+                    },
+                    "published": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "product_url_additional_params": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "ord_markup": {
+                        "type": "string",
+                        "example": "ord_token",
+                        "nullable": true
+                    },
+                    "closed": {
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
+            "AdSet": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "format": {
+                        "description": "Ad format",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Video Overlay"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": ""
+                            },
+                            "icon": {
+                                "type": "string",
+                                "example": "video-overlay.svg"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "format_edit": {
+                        "description": "Whether format can be changed",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "platform": {
+                        "description": "Target platform: twitch, youtube, trovo, vkplay, vklive, tiktok",
+                        "type": "string",
+                        "example": "twitch"
+                    },
+                    "campaign": {
+                        "description": "Parent campaign",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "slug": {
+                                "type": "string",
+                                "example": "BA-CMP-1741358023"
+                            },
+                            "type": {
+                                "type": "string",
+                                "example": "video"
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Summer Gaming Campaign"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": ""
+                            },
+                            "category": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Gaming"
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "example": "gaming-icon.svg"
+                                    },
+                                    "is_dark_market": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "visible": {
+                                "type": "boolean",
+                                "example": true
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "slug": {
+                        "description": "Ad set slug (format: {TYPE}-GRP-{timestamp})",
+                        "type": "string",
+                        "example": "BA-GRP-1741358023"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Twitch Gamers 18-35"
+                    },
+                    "title_alternative": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "start": {
+                        "type": "string",
+                        "example": "2024-06-01",
+                        "nullable": true
+                    },
+                    "end": {
+                        "type": "string",
+                        "example": "2024-08-31",
+                        "nullable": true
+                    },
+                    "start_view": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "end_view": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "strategy_payment": {
+                        "description": "Payment strategy: ppv (Pay per view), cpc (Pay per click), cpa (Pay per conversion), ppva (Pay per view and conversion bonus)",
+                        "type": "string",
+                        "example": "ppv"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "usd"
+                    },
+                    "bid_cap": {
+                        "type": "number",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "impressions": {
+                        "type": "integer",
+                        "example": 5000
+                    },
+                    "cpa": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "conversions": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "cpc": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "clicks": {
+                        "type": "integer",
+                        "example": 35
+                    },
+                    "cpa_day_limit": {
+                        "type": "number",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "cpc_day_limit": {
+                        "type": "number",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "streamer_day_limit": {
+                        "description": "Daily insertion limit per streamer. Null means unlimited.",
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "time_zone": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "target_ctr": {
+                        "type": "number",
+                        "example": 0.5
+                    },
+                    "target_evr": {
+                        "type": "number",
+                        "example": 0
+                    },
+                    "frequency": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "frequency_count": {
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "frequency_period": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "conversions_alert_animation": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "conversions_alert_text": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "targeting": {
+                        "description": "Targeting settings",
+                        "properties": {
+                            "gender": {
+                                "type": "string",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "age_from": {
+                                "type": "integer",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "age_to": {
+                                "type": "integer",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "min_cpm": {
+                                "type": "number",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "max_cpm": {
+                                "type": "number",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "exclude_streamers": {
+                                "description": "Whether streamers list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_languages": {
+                                "description": "Whether broadcaster_languages list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_countries": {
+                                "description": "Whether countries list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_tags": {
+                                "description": "Whether tags list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_countries_auditory": {
+                                "description": "Whether countries_auditory list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_devices_auditory": {
+                                "description": "Whether devices_auditory list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "mature": {
+                                "type": "boolean",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "audience_assessment": {
+                                "properties": {
+                                    "size": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "reach": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "count": {
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "streamers": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 101
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "StreamerNick"
+                                        },
+                                        "currency": {
+                                            "type": "string",
+                                            "example": "usd"
+                                        },
+                                        "agency": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Uplify Agency"
+                                                },
+                                                "currency": {
+                                                    "type": "string",
+                                                    "example": "usd"
+                                                },
+                                                "use_dark_market_cpm": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "cpm": {
+                                                    "properties": {
+                                                        "internal_cpm": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1.5
+                                                        },
+                                                        "external_cpm": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 3
+                                                        },
+                                                        "dark_market_internal_cpm": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1.5
+                                                        },
+                                                        "dark_market_external_cpm": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 3
+                                                        },
+                                                        "internal_cpc": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.1
+                                                        },
+                                                        "external_cpc": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.2
+                                                        },
+                                                        "dark_market_internal_cpc": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.1
+                                                        },
+                                                        "dark_market_external_cpc": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.2
+                                                        },
+                                                        "internal_cpa": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.5
+                                                        },
+                                                        "external_cpa": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1
+                                                        },
+                                                        "dark_market_internal_cpa": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.5
+                                                        },
+                                                        "dark_market_external_cpa": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "cpm": {
+                                            "properties": {
+                                                "internal_cpm": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1.5
+                                                },
+                                                "external_cpm": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 3
+                                                },
+                                                "dark_market_internal_cpm": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1.5
+                                                },
+                                                "dark_market_external_cpm": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 3
+                                                },
+                                                "internal_cpc": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.1
+                                                },
+                                                "external_cpc": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.2
+                                                },
+                                                "dark_market_internal_cpc": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.1
+                                                },
+                                                "dark_market_external_cpc": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.2
+                                                },
+                                                "internal_cpa": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.5
+                                                },
+                                                "external_cpa": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1
+                                                },
+                                                "dark_market_internal_cpa": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.5
+                                                },
+                                                "dark_market_external_cpa": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "broadcaster_languages": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "countries": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "tags": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "agencies": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Uplify Agency"
+                                        },
+                                        "currency": {
+                                            "type": "string",
+                                            "example": "usd"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "countries_auditory": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "devices_auditory": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "published": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "priority": {
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
+            "Ad": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "BA-CRV-mp4-1741358023"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Banner Creative"
+                    },
+                    "title_alternative": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "attachments": {
+                        "description": "Key-value map of attachment type to file info. Keys depend on ad format (e.g. 'video', 'zip', 'unit'). Each value is null or {size: int, path: string, basename: string, basedir: string, properties: object, extend: object}.",
+                        "type": "object"
+                    },
+                    "product_url": {
+                        "type": "string",
+                        "example": "https://example.com/product",
+                        "nullable": true
+                    },
+                    "mobile_product_url": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "chatbot_text": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "companion_heading": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "companion_text": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "companion_cta": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "qr_code": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "script_code": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "pixel_clicks": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_clicks_scripts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_impressions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_inspections": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_quertels_25": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_quertels_50": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_quertels_75": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "product_url_additional_params": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "legal_compliance": {
+                        "properties": {
+                            "erid": {
+                                "properties": {
+                                    "media": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "text": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "marker": {
+                                "properties": {
+                                    "media": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "text": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "visible": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "MessageResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "parameters": {
+            "page": {
+                "name": "page",
+                "in": "query",
+                "description": "Page number for pagination",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1,
+                    "default": 1
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "Sanctum",
+                "description": "Enter your Bearer token."
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Ads Widget",
+            "description": "Public widget endpoints called by the OBS overlay (no auth required). The widget slug is passed in the URL path."
+        },
+        {
+            "name": "Ads Streamer",
+            "description": "Authenticated streamer endpoints for triggering demo, manual, and referral ads. Require Bearer token."
+        },
+        {
+            "name": "Ads Creative",
+            "description": "Public endpoints for fetching ad creative data by ad slug."
+        },
+        {
+            "name": "Special Project Widget",
+            "description": "Special project ad auction and availability check (no auth required)."
+        }
+    ]
+}

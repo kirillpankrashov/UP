@@ -1,0 +1,43 @@
+import type {
+	IUpdatePrerollAdsetData,
+	IUpdatePrerollAdsetPayload,
+} from './types'
+
+export const dataToPayload = (data: IUpdatePrerollAdsetData): IUpdatePrerollAdsetPayload => {
+	return {
+		slug: data.slug,
+		title: data.title.default,
+		description: data.description,
+		format: data.format,
+		platform: data.platform,
+		start: data.dates.start ?? '',
+		end: data.dates.end ?? '',
+		payable_type: data.payableType,
+		bid_cap: data.bidCap ?? null,
+		bid_cpa: data.bidCpa ?? null,
+		impressions: data.impressions ?? null,
+		budget: data.budget ?? null,
+		product_url: data.productUrl.general,
+		mobile_product_url: data.productUrl.mobile,
+		video_description_text: data.videoDescriptionText,
+		exclude_streamers: data.targeting.streamers.exclude,
+		streamers: data.targeting.streamers.list,
+		exclude_countries: data.targeting.countries.exclude,
+		countries: data.targeting.countries.list,
+		exclude_countries_auditory: data.targeting.countriesAuditory.exclude,
+		countries_auditory: data.targeting.countriesAuditory.list,
+		exclude_devices_auditory: data.targeting.devicesAuditory.exclude,
+		devices_auditory: data.targeting.devicesAuditory.list,
+		exclude_languages: data.targeting.broadcasterLanguages.exclude,
+		broadcaster_languages: data.targeting.broadcasterLanguages.list,
+		exclude_tags: data.targeting.tags.exclude,
+		tags: data.targeting.tags.list,
+		visible: data.visible,
+		target_ctr: data.targetCtr ?? null,
+		target_cpa: data.targetCpa ?? null,
+		pixel_clicks: data.pixelClicks.filter(val => val !== ''),
+		pixel_clicks_scripts: data.pixelClicksScripts,
+		title_alternative: data.title.alternative,
+		...(data.unit.indexOf('tmp/') !== -1 ? { unit: data.unit } : {}),
+	}
+}

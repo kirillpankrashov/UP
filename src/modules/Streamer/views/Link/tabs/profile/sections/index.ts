@@ -1,0 +1,6 @@
+export { default as Telegram } from './Telegram/Telegram.vue'
+export { default as Gears } from './Gears/Gears.vue'
+export { default as About } from './About/About.vue'
+export { default as SocialLinks } from './SocialLinks/SocialLinks.vue'
+export { default as Theme } from './Theme/Theme.vue'
+export { default as Banner } from './Banner/Banner.vue'

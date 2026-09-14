@@ -1,0 +1,678 @@
+---
+description: Rules for writing Pinia store tests
+globs: **/store/**/*.test.ts
+alwaysApply: false
+---
+
+# Pinia Store Testing Rules
+
+## Test File Structure
+
+### Basic Imports
+
+```typescript
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
+```
+
+### Mock Setup
+
+Mock modules at the top level before imports:
+
+```typescript
+vi.mock('@/core/helpers')
+vi.mock('@/modules/.../api')
+```
+
+### Test Data Constants
+
+Create test data constants at the beginning of the file:
+
+```typescript
+const mockData = {
+  id: 1,
+  title: 'Test Title',
+  // minimal fields needed for test
+} as IDataType
+
+// Or use fixtures from fixtures/ folders
+import { postData } from '@/modules/Streamer/views/Link/api/createPost/fixtures/postData'
+import { profileData } from '@/modules/Streamer/views/Profile/store/__fixtures__/profileData'
+```
+
+### Describe Block Naming
+
+Use format: `'StoreName actionName'`:
+
+```typescript
+describe('Link Posts Store submitPost', () => {
+  // tests
+})
+```
+
+## Setup Pattern
+
+### beforeEach Setup
+
+Always set up Pinia and clear mocks in `beforeEach`:
+
+```typescript
+beforeEach(() => {
+  setActivePinia(createPinia())
+  vi.clearAllMocks()
+})
+```
+
+For tests requiring router or app context:
+
+```typescript
+import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+
+beforeEach(() => {
+  const app = createApp({})
+  const pinia = createPinia()
+  app.use(pinia)
+  app.use(router)
+  setActivePinia(pinia)
+  vi.clearAllMocks()
+})
+```
+
+## Factory Pattern
+
+Use factory functions for test setup with configurable parameters:
+
+```typescript
+const factory = async (streamerFetched: boolean = true) => {
+  const postsStore = useLinkPostsStore()
+  
+  const streamerStore = useStreamerStore()
+  if (streamerFetched) {
+    streamerStore.profile = profileData
+  }
+  
+  return { postsStore }
+}
+```
+
+Factory can pre-populate state or call actions:
+
+```typescript
+const factory = async (fetchWidget: boolean = true) => {
+  const settingsStore = useSettingsStore()
+  
+  if (fetchWidget) {
+    await settingsStore.fetchWidget()
+  }
+  
+  settingsStore.widget!.extensionEnabled = false
+  
+  return { settingsStore }
+}
+```
+
+Return multiple stores when needed:
+
+```typescript
+const factory = async () => {
+  const streamerStore = useStreamerStore()
+  const settingsStore = useSettingsStore()
+  const analyticsStore = useCampaignAnalyticsStore()
+  
+  streamerStore.profile = profileData
+  
+  if (fetchWidget) {
+    await settingsStore.fetchWidget()
+  }
+  
+  return {
+    analyticsStore,
+    settingsStore,
+    streamerStore,
+  }
+}
+```
+
+## Action Testing Patterns
+
+### Test Naming Convention
+
+Use format: `'actionName – success'` or `'actionName – fail, reason'`:
+
+```typescript
+it('submitPost – success, calls updatePost if post have id', async () => {
+  // test
+})
+
+it('submitPost – fail, no streamer data', async () => {
+  // test
+})
+
+it('getPosts – fail, request error', async () => {
+  // test
+})
+```
+
+### Testing Loading States
+
+Check loading flags before action, during promise, and after await:
+
+```typescript
+it('getPosts – success', async () => {
+  const { postsStore } = await factory()
+  
+  expect(postsStore.isLoadingPosts).toBe(false)
+  
+  const promise = postsStore.getPosts()
+  
+  expect(postsStore.isLoadingPosts).toBe(true)
+  
+  await promise
+  
+  expect(postsStore.isLoadingPosts).toBe(false)
+})
+```
+
+### Testing API Calls
+
+Verify API methods are called with correct parameters:
+
+```typescript
+expect(getPosts).toHaveBeenCalled()
+expect(updatePost).toHaveBeenCalledWith(postData)
+expect(SegmentsApi.getSegment).toHaveBeenCalledWith(segmentId)
+expect(getPosts).toHaveBeenCalledTimes(1)
+```
+
+### Testing State Updates
+
+Verify store properties after action completes:
+
+```typescript
+await promise
+
+expect(postsStore.posts.data).toEqual(postsData.posts)
+expect(postsStore.posts.total).toEqual(postsData.count)
+expect(postsStore.post).toEqual(postData)
+expect(settingsStore.widget?.extensionEnabled).toBe(true)
+```
+
+### Testing Error Handling
+
+Verify error logging and state preservation on failures:
+
+```typescript
+it('submitPost – fail, createPost throws request error', async () => {
+  const { postsStore } = await factory()
+  
+  (createPost as Mock).mockRejectedValueOnce({ status: false })
+  
+  expect(postsStore.isLoadingPost).toBe(false)
+  
+  const promise = postsStore.submitPost(newPost)
+  
+  expect(postsStore.isLoadingPost).toBe(true)
+  
+  await promise
+  
+  expect(Logger.error).toHaveBeenCalled()
+  expect(createPost).toHaveBeenCalled()
+  expect(getPosts).not.toHaveBeenCalled()
+  expect(postsStore.post).toEqual(newPost)
+  expect(postsStore.isLoadingPost).toBe(false)
+})
+```
+
+## API Mocking
+
+### Mock Setup
+
+Mock API modules at top level:
+
+```typescript
+import * as ApiModule from '@/modules/.../api'
+import type { Mock } from 'vitest'
+
+vi.mock('@/modules/.../api')
+```
+
+### Success Cases
+
+Use `mockResolvedValueOnce` for successful responses:
+
+```typescript
+(SegmentsApi.getSegment as Mock).mockResolvedValueOnce(mockSegment)
+(getPosts as Mock).mockResolvedValueOnce(postsData)
+```
+
+### Error Cases
+
+Use `mockRejectedValueOnce` for errors:
+
+```typescript
+(getPosts as Mock).mockRejectedValueOnce({ status: false })
+const error = new Error('API Error')
+(SegmentsApi.getSegment as Mock).mockRejectedValueOnce(error)
+```
+
+### Conditional Mocking
+
+Set up mocks per test case:
+
+```typescript
+it('checkExtension – success, not changed', async () => {
+  const { settingsStore } = await factory()
+  
+  (checkExtension as Mock).mockResolvedValueOnce({
+    ...extensionData,
+    changed: false,
+  })
+  
+  // test
+})
+```
+
+## Data Mocks
+
+### Using Fixtures
+
+Prefer fixtures from `fixtures/` folders:
+
+```typescript
+import { postData } from '@/modules/Streamer/views/Link/api/createPost/fixtures/postData'
+import { profileData } from '@/modules/Streamer/views/Profile/store/__fixtures__/profileData'
+import { performanceCampaign } from '@/modules/Partner/views/FormCampaign/api/getPerformanceCampaign/fixtures/performanceCampaign'
+```
+
+### Inline Mocks
+
+Create minimal test data when fixtures aren't available:
+
+```typescript
+const newPost = {
+  content: 'test',
+  embed: 'test',
+}
+
+const extensionData = {
+  status: true,
+  activation: true,
+  changed: true,
+}
+
+const mockSegment = {
+  id: 1,
+  title: 'Gaming Segment',
+  streamers: [
+    { id: 1, name: 'Streamer 1' },
+    { id: 2, name: 'Streamer 2' },
+  ],
+} as ISegment
+```
+
+Use type assertions with `as TypeName` for type safety.
+
+## Getter Testing
+
+Set up store state and test getters as computed properties:
+
+```typescript
+it('currentQuestion returns correct question', () => {
+  const store = useQuizStore()
+  
+  store.quiz = mockQuiz
+  store.currentIndex = 0
+  
+  expect(store.currentQuestion).toEqual(mockQuiz.questions[0])
+})
+
+it('isLastQuestion returns true for last index', () => {
+  const store = useQuizStore()
+  
+  store.quiz = mockQuiz
+  store.currentIndex = mockQuiz.questions.length - 1
+  
+  expect(store.isLastQuestion).toBe(true)
+})
+```
+
+Test getters with different state configurations:
+
+```typescript
+it('hasQuestions returns false when quiz is null', () => {
+  const store = useQuizStore()
+  
+  store.quiz = null
+  
+  expect(store.hasQuestions).toBe(false)
+})
+
+it('hasQuestions returns true when quiz has questions', () => {
+  const store = useQuizStore()
+  
+  store.quiz = mockQuiz
+  
+  expect(store.hasQuestions).toBe(true)
+})
+```
+
+## Test Cases Coverage
+
+### Success Path
+
+Test happy path with all assertions:
+
+```typescript
+it('fetchSegment – success', async () => {
+  const { store } = await factory(false)
+  const segmentId = 1
+  
+  (SegmentsApi.getSegment as Mock).mockResolvedValueOnce(mockSegment)
+  
+  expect(store.segment.loading).toBe(false)
+  expect(store.segment.data).toBeNull()
+  
+  const promise = store.fetchSegment(segmentId)
+  
+  expect(store.segment.loading).toBe(true)
+  
+  await promise
+  
+  expect(store.segment.loading).toBe(false)
+  expect(store.segment.data).toEqual(mockSegment)
+  expect(SegmentsApi.getSegment).toHaveBeenCalledWith(segmentId)
+})
+```
+
+### Failure Paths
+
+Test missing data scenarios:
+
+```typescript
+it('getPosts – fail, no streamer data', async () => {
+  const { postsStore } = await factory(false)
+  
+  expect(postsStore.isLoadingPosts).toBe(false)
+  
+  const promise = postsStore.getPosts()
+  
+  expect(postsStore.isLoadingPosts).toBe(false)
+  
+  await promise
+  
+  expect(Logger.error).toHaveBeenCalled()
+  expect(getPosts).not.toHaveBeenCalled()
+  expect(postsStore.posts.data).toEqual(null)
+  expect(postsStore.isLoadingPosts).toBe(false)
+})
+```
+
+Test API errors:
+
+```typescript
+it('fetchSegment – fail if getSegment fails', async () => {
+  const { store } = await factory(false)
+  const segmentId = 1
+  const error = new Error('API Error')
+  
+  (SegmentsApi.getSegment as Mock).mockRejectedValueOnce(error)
+  
+  expect(store.segment.loading).toBe(false)
+  expect(store.segment.data).toBeNull()
+  
+  const promise = store.fetchSegment(segmentId)
+  
+  expect(store.segment.loading).toBe(true)
+  
+  await promise
+  
+  expect(store.segment.loading).toBe(false)
+  expect(store.segment.data).toBeNull()
+  expect(Logger.error).toHaveBeenCalledWith(
+    'Error fetching segment',
+    true,
+    error,
+  )
+})
+```
+
+### Edge Cases
+
+Test conditional logic:
+
+```typescript
+it('submitPost – success, calls updatePost if post have id', async () => {
+  const { postsStore } = await factory()
+  
+  expect(postsStore.isLoadingPost).toBe(false)
+  
+  const promise = postsStore.submitPost(postData)
+  
+  expect(postsStore.isLoadingPost).toBe(true)
+  
+  await promise
+  
+  expect(updatePost).toHaveBeenCalled()
+  expect(getPosts).toHaveBeenCalled()
+  expect(postsStore.post).toEqual(postData)
+  expect(postsStore.isLoadingPost).toBe(false)
+})
+
+it('submitPost – success, calls createPost if post doesn\'t have id', async () => {
+  const { postsStore } = await factory()
+  
+  expect(postsStore.isLoadingPost).toBe(false)
+  
+  const promise = postsStore.submitPost(newPost)
+  
+  expect(postsStore.isLoadingPost).toBe(true)
+  
+  await promise
+  
+  expect(createPost).toHaveBeenCalled()
+  expect(getPosts).toHaveBeenCalled()
+  expect(postsStore.post).toEqual(newPost)
+  expect(postsStore.isLoadingPost).toBe(false)
+})
+```
+
+## Complete Examples
+
+### Basic Action Test
+
+```typescript
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
+
+import { Logger } from '@/core/helpers'
+import { getPosts } from '@/modules/Streamer/views/Link/api'
+import { postsData } from '@/modules/Streamer/views/Link/api/getPosts/fixtures/postsData'
+import { useStreamerStore } from '@/modules/Streamer/views/Profile/store'
+import { profileData } from '@/modules/Streamer/views/Profile/store/__fixtures__/profileData'
+
+import { useLinkPostsStore } from '../posts'
+
+vi.mock('@/core/helpers')
+vi.mock('@/modules/Streamer/views/Link/api')
+
+describe('Link Posts Store getPosts', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+    vi.clearAllMocks()
+  })
+
+  const factory = async (streamerFetched: boolean = true) => {
+    const postsStore = useLinkPostsStore()
+    
+    const streamerStore = useStreamerStore()
+    if (streamerFetched) {
+      streamerStore.profile = profileData
+    }
+    
+    return { postsStore }
+  }
+
+  it('getPosts – success', async () => {
+    const { postsStore } = await factory()
+    
+    expect(postsStore.isLoadingPosts).toBe(false)
+    
+    const promise = postsStore.getPosts()
+    
+    expect(postsStore.isLoadingPosts).toBe(true)
+    
+    await promise
+    
+    expect(getPosts).toHaveBeenCalled()
+    expect(postsStore.posts.data).toEqual(postsData.posts)
+    expect(postsStore.posts.total).toEqual(postsData.count)
+    expect(postsStore.isLoadingPosts).toBe(false)
+  })
+
+  it('getPosts – fail, no streamer data', async () => {
+    const { postsStore } = await factory(false)
+    
+    expect(postsStore.isLoadingPosts).toBe(false)
+    
+    const promise = postsStore.getPosts()
+    
+    expect(postsStore.isLoadingPosts).toBe(false)
+    
+    await promise
+    
+    expect(Logger.error).toHaveBeenCalled()
+    expect(getPosts).not.toHaveBeenCalled()
+    expect(postsStore.posts.data).toEqual(null)
+    expect(postsStore.isLoadingPosts).toBe(false)
+  })
+
+  it('getPosts – fail, request error', async () => {
+    const { postsStore } = await factory()
+    
+    (getPosts as Mock).mockRejectedValueOnce({ status: false })
+    
+    expect(postsStore.isLoadingPosts).toBe(false)
+    
+    const promise = postsStore.getPosts()
+    
+    expect(postsStore.isLoadingPosts).toBe(true)
+    
+    await promise
+    
+    expect(Logger.error).toHaveBeenCalled()
+    expect(getPosts).toHaveBeenCalled()
+    expect(postsStore.posts.data).toEqual(null)
+    expect(postsStore.isLoadingPosts).toBe(false)
+  })
+})
+```
+
+### Error Handling Test
+
+```typescript
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
+
+import { Logger } from '@/core/helpers'
+import { createPost, getPosts, updatePost } from '@/modules/Streamer/views/Link/api'
+import { postData } from '@/modules/Streamer/views/Link/api/createPost/fixtures/postData'
+import { useStreamerStore } from '@/modules/Streamer/views/Profile/store'
+import { profileData } from '@/modules/Streamer/views/Profile/store/__fixtures__/profileData'
+
+import { useLinkPostsStore } from '../posts'
+
+vi.mock('@/core/helpers')
+vi.mock('@/modules/Streamer/views/Link/api')
+
+const newPost = {
+  content: 'test',
+  embed: 'test',
+}
+
+describe('Link Posts Store submitPost', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+    vi.clearAllMocks()
+  })
+
+  const factory = async (streamerFetched: boolean = true) => {
+    const postsStore = useLinkPostsStore()
+    
+    const streamerStore = useStreamerStore()
+    if (streamerFetched) {
+      streamerStore.profile = profileData
+    }
+    
+    return { postsStore }
+  }
+
+  it('submitPost – fail, createPost throws request error', async () => {
+    const { postsStore } = await factory()
+    
+    (createPost as Mock).mockRejectedValueOnce({ status: false })
+    
+    expect(postsStore.isLoadingPost).toBe(false)
+    
+    const promise = postsStore.submitPost(newPost)
+    
+    expect(postsStore.isLoadingPost).toBe(true)
+    
+    await promise
+    
+    expect(Logger.error).toHaveBeenCalled()
+    expect(createPost).toHaveBeenCalled()
+    expect(getPosts).not.toHaveBeenCalled()
+    expect(postsStore.post).toEqual(newPost)
+    expect(postsStore.isLoadingPost).toBe(false)
+  })
+})
+```
+
+### Getter Test Example
+
+```typescript
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { useQuizStore } from '../quiz'
+
+const mockQuiz = {
+  questions: [
+    { id: 1, text: 'Question 1' },
+    { id: 2, text: 'Question 2' },
+  ],
+} as IQuiz
+
+describe('Quiz Store Getters', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  it('currentQuestion returns correct question', () => {
+    const store = useQuizStore()
+    
+    store.quiz = mockQuiz
+    store.currentIndex = 0
+    
+    expect(store.currentQuestion).toEqual(mockQuiz.questions[0])
+  })
+
+  it('isLastQuestion returns true for last index', () => {
+    const store = useQuizStore()
+    
+    store.quiz = mockQuiz
+    store.currentIndex = mockQuiz.questions.length - 1
+    
+    expect(store.isLastQuestion).toBe(true)
+  })
+
+  it('hasQuestions returns false when quiz is null', () => {
+    const store = useQuizStore()
+    
+    store.quiz = null
+    
+    expect(store.hasQuestions).toBe(false)
+  })
+})
+```

@@ -1,0 +1,6 @@
+export { default as CollectionSwitcher } from './CollectionSwitcher/CollectionSwitcher.vue'
+export { default as Filter } from './Filter/Filter.vue'
+export { default as Search } from './Search/Search.vue'
+export { default as CampaignsSidebar } from './CampaignsSidebar/CampaignsSidebar.vue'
+export { default as AdsetsSidebar } from './AdsetsSidebar/AdsetsSidebar.vue'
+export { default as CreateCollection } from './CreateCollection/CreateCollection.vue'

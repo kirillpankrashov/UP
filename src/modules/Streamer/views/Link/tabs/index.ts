@@ -1,0 +1,5 @@
+export { default as Setup } from './setup/Setup.vue'
+export { default as Profile } from './profile/Profile.vue'
+export { default as Alerts } from './alerts/Alerts.vue'
+export { default as Analytics } from './analytics/Analytics.vue'
+export { default as Posts } from './posts/Posts.vue'

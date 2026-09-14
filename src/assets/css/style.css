@@ -1,0 +1,169 @@
+@import url('fonts.css');
+@import url('variables.css');
+@import url('videojs.css');
+@import url('videojs.vast.vpaid.css');
+@import url('theme-default.css');
+@import url('theme-trovo.css');
+@import url('theme-jonekiri.css');
+@import url('theme-gaming-partners.css');
+@import url('theme-pareto.css');
+@import url('theme-streammoney.css');
+@import url('theme-ampverse.css');
+@import url('element-plus-dark.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
+  }
+
+  body {
+    min-height: 100vh;
+    color: var(--el-text-color-primary);
+		background-color: transparent;
+    background-color: var(--color-background);
+    transition: color 0.5s, background-color 0.5s;
+    line-height: 1.6;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body.is-widget {
+    background-color: transparent !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+@layer utilities {
+  ._headline {
+    @apply font-bold text-[32px]/[1] tracking-tight
+  }
+
+  ._headline-0 {
+    @apply font-bold text-5xl/[1] tracking-tight
+  }
+
+  ._headline-2 {
+    @apply font-bold text-2xl/[1] tracking-tight
+  }
+
+  ._text-s-bold {
+    @apply font-bold text-xs/[1.142]
+  }
+
+  ._text-s-regular {
+    @apply text-xs/[1.142]
+  }
+
+  ._text-m-regular {
+    @apply text-sm/[1.142]
+  }
+
+  ._text-m-bold {
+    @apply font-bold text-sm/[1.142]
+  }
+
+  ._text-l-regular {
+    @apply text-lg/[1.142] tracking-[-0.01em]
+  }
+
+  ._text-l-bold {
+    @apply font-bold text-lg/[1.142] tracking-[-0.01em]
+  }
+
+  ._text-caption {
+    @apply text-[10px]/[1] text-[color:var(--el-text-color-secondary)]
+  }
+
+  ._text-caption-caps {
+    @apply font-bold text-[10px]/[1] text-[color:var(--el-text-color-secondary)] tracking-wider uppercase
+  }
+
+  ._text-s-bold,
+  ._text-s-regular,
+  ._text-m-regular,
+  ._text-m-bold,
+  ._text-l-regular,
+  ._text-l-bold {
+
+    a,
+    p,
+    ul,
+    li {
+      font: inherit;
+      color: inherit;
+    }
+
+    p,
+    ul {
+      &:not(:last-child) {
+        margin-bottom: 6px
+      }
+    }
+
+    a {
+      display: inline;
+      border-bottom: var(--el-text-color-secondary);
+
+      &:hover {
+        color: var(--el-color-primary);
+        border-color: var(--el-color-primary) !important;
+      }
+    }
+
+    ul {
+      li {
+        &::before {
+          content: '•';
+          display: inline-block;
+          width: 16px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+	.no-scrollbar::-webkit-scrollbar {
+		width: 0px;
+		background: transparent; /* make scrollbar transparent */
+	}
+}
+
+:root {
+	--ext-default-color: #9FB3DF;
+	--ext-white-color: #F5F5F7;
+	--ext-black-color: #2e2b29;
+	--ext-success-color: #CAE8BD;
+	--ext-error-color: #DA6C6C;
+}
+
+.v-md-editor {
+  box-shadow: none !important;
+  border: 1px solid var(--el-border-color);
+}
+
+.v-md-textarea-editor textarea {
+  background: white;
+}
+
+.v-md-editor:has(textarea:focus) {
+  border-color: var(--el-color-primary) !important;
+}
+
+.v-md-editor-preview {
+	word-break: break-all;
+}

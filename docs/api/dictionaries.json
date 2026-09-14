@@ -1,0 +1,2119 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dictionaries API",
+        "description": "\n",
+        "contact": {
+            "name": "Uplify Support",
+            "url": "https://streamstack.cc",
+            "email": "support@uplify.us"
+        },
+        "license": {
+            "name": "Proprietary",
+            "url": "https://streamstack.cc"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://staging.streamstack.cc",
+            "description": "Staging"
+        },
+        {
+            "url": "https://streamstack.cc",
+            "description": "Production"
+        }
+    ],
+    "paths": {
+        "/api/v1/dictionary/currencies": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get list of currencies",
+                "description": "Returns available currencies.",
+                "operationId": "dictionaryCurrencies",
+                "responses": {
+                    "200": {
+                        "description": "Currencies list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Currency code (lowercase)",
+                                                        "type": "string",
+                                                        "example": "eur"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Euro"
+                                                    },
+                                                    "icon": {
+                                                        "description": "Currency flag emoji or icon URL",
+                                                        "type": "string",
+                                                        "example": "🇪🇺"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/languages": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get list of languages",
+                "description": "Returns available languages for streamer audience targeting.",
+                "operationId": "dictionaryLanguages",
+                "responses": {
+                    "200": {
+                        "description": "Languages list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Language code (ISO 639-1)",
+                                                        "type": "string",
+                                                        "example": "en"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "English"
+                                                    },
+                                                    "icon": {
+                                                        "description": "Language icon URL or emoji",
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/time-zones": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get list of time zones",
+                "description": "Returns available time zones for campaign scheduling.",
+                "operationId": "dictionaryTimeZones",
+                "responses": {
+                    "200": {
+                        "description": "Time zones list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "UTC offset as integer (e.g. -12, 0, 3)",
+                                                        "type": "integer",
+                                                        "example": -12
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "UTC-12:00 (Baker Island, Howland Island)"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/tags": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get list of streamer category tags",
+                "description": "Returns tags representing streamer content categories (e.g. gaming genres). Use tag IDs for audience targeting in ad sets.",
+                "operationId": "dictionaryTags",
+                "responses": {
+                    "200": {
+                        "description": "Tags list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Dota 2"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": "https://static-cdn.jtvnw.net/ttv-boxart/Dota 2-136x190.jpg"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/devices": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get list of devices",
+                "description": "Returns device types for audience targeting.",
+                "operationId": "dictionaryDevices",
+                "responses": {
+                    "200": {
+                        "description": "Devices list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "desktop"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Desktop"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/gender": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get gender targeting options",
+                "description": "Returns available gender targeting values for audience segmentation.",
+                "operationId": "dictionaryGender",
+                "responses": {
+                    "200": {
+                        "description": "Gender options",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Gender code: male, female, other",
+                                                        "type": "string",
+                                                        "example": "male"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Male"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/locales": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get list of locales",
+                "description": "Returns available UI locales for the Uplify platform.",
+                "operationId": "dictionaryLocales",
+                "responses": {
+                    "200": {
+                        "description": "Locales list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Locale code",
+                                                        "type": "string",
+                                                        "example": "en"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "English"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/exchange-rates": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get exchange rates",
+                "description": "Returns current currency exchange rates between all supported currency pairs.",
+                "operationId": "dictionaryExchangeRates",
+                "responses": {
+                    "200": {
+                        "description": "Exchange rates",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "from_currency": {
+                                                        "description": "Source currency code",
+                                                        "type": "string",
+                                                        "example": "brl"
+                                                    },
+                                                    "to_currency": {
+                                                        "description": "Target currency code",
+                                                        "type": "string",
+                                                        "example": "eur"
+                                                    },
+                                                    "rate": {
+                                                        "description": "Exchange rate",
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 0.18
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/campaigns/formats": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get ad formats",
+                "description": "Returns available ad creative formats (e.g. video, pip_video, leaderboard, custom). Use format codes when creating ad sets.",
+                "operationId": "dictionaryCampaignsFormats",
+                "responses": {
+                    "200": {
+                        "description": "Formats list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Format code",
+                                                        "type": "string",
+                                                        "example": "video"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Video Overlay"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/campaigns/positions": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get ad positions",
+                "description": "Returns available ad display positions on the stream overlay.",
+                "operationId": "dictionaryCampaignsPositions",
+                "responses": {
+                    "200": {
+                        "description": "Positions list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Position code",
+                                                        "type": "string",
+                                                        "example": "left_top_corner"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Left top corner"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/campaigns/types": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get campaign types",
+                "description": "Returns available campaign types: brand_awareness, performance, extension, preroll.",
+                "operationId": "dictionaryCampaignsTypes",
+                "responses": {
+                    "200": {
+                        "description": "Campaign types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Campaign type code",
+                                                        "type": "string",
+                                                        "example": "brand_awareness"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Brand Awareness"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "visible": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/countries": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get list of countries",
+                "description": "Returns all available countries for targeting. Use country codes in ad set audience criteria.",
+                "operationId": "dictionaryCountries",
+                "responses": {
+                    "200": {
+                        "description": "List of countries",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Country code (ISO 3166-1 alpha-2, lowercase)",
+                                                        "type": "string",
+                                                        "example": "us"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "United States"
+                                                    },
+                                                    "currency": {
+                                                        "description": "Default currency code for this country",
+                                                        "type": "string",
+                                                        "example": "usd"
+                                                    },
+                                                    "icon": {
+                                                        "description": "Country flag emoji or icon URL",
+                                                        "type": "string",
+                                                        "example": "🇺🇸"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/campaigns/categories": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get campaign categories",
+                "description": "Returns available campaign categories (e.g. Gaming, Technology, Beauty). Required when creating a campaign.",
+                "operationId": "dictionaryCampaignsCategories",
+                "responses": {
+                    "200": {
+                        "description": "Categories list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Gaming"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "dark_market": {
+                                                        "description": "Whether this category is restricted (dark market)",
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dictionary/all": {
+            "get": {
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "Get all dictionary values",
+                "description": "Returns all reference data in a single request: platforms, currencies, countries, languages, locales, gender, tags, devices, positions, categories, exchange rates, time zones, payment amounts, widget frequencies.",
+                "operationId": "dictionaryAll",
+                "responses": {
+                    "200": {
+                        "description": "All dictionaries",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "platforms": {
+                                            "description": "Key-value map: platform code => display name",
+                                            "type": "object",
+                                            "example": {
+                                                "twitch": "Twitch",
+                                                "youtube": "YouTube",
+                                                "trovo": "Trovo",
+                                                "vkplay": "Vkplay"
+                                            }
+                                        },
+                                        "currencies": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "eur"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Euro"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": "🇪🇺"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "countries": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "us"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "United States"
+                                                    },
+                                                    "currency": {
+                                                        "type": "string",
+                                                        "example": "usd"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": "🇺🇸"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "languages": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "en"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "English"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "locales": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "en"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "English"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "gender": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Gender code: male, female, other",
+                                                        "type": "string",
+                                                        "example": "male"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Male"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "tags": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Dota 2"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": "https://static-cdn.jtvnw.net/ttv-boxart/Dota 2-136x190.jpg"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "devices": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "desktop"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Desktop"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "campaigns_positions": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "left_top_corner"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Left top corner"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "leaderboard_positions": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "bottom"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Bottom"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "campaigns_categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Gaming"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "dark_market": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "exchange_rates": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "from_currency": {
+                                                        "type": "string",
+                                                        "example": "brl"
+                                                    },
+                                                    "to_currency": {
+                                                        "type": "string",
+                                                        "example": "eur"
+                                                    },
+                                                    "rate": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 0.18
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "time_zones": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "UTC offset as integer",
+                                                        "type": "integer",
+                                                        "example": -12
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "UTC-12:00 (Baker Island, Howland Island)"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "payment_minimum_amount": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "currency": {
+                                                        "type": "string",
+                                                        "example": "usd"
+                                                    },
+                                                    "value": {
+                                                        "description": "Minimum payout amount in this currency",
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 50
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "widget_frequency": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "value": {
+                                                        "description": "Frequency value in minutes",
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Every 5 minutes"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "ssp_text_frequency": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "value": {
+                                                        "description": "Number of text inserts",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "One insert"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ErrorMessage": {
+                "properties": {
+                    "field": {
+                        "description": "Field name that caused the error, or null for general errors",
+                        "type": "string",
+                        "example": "title",
+                        "nullable": true
+                    },
+                    "text": {
+                        "description": "Human-readable error message",
+                        "type": "string",
+                        "example": "The title field is required."
+                    },
+                    "code": {
+                        "description": "Machine-readable error code",
+                        "type": "string",
+                        "example": "TITLE_REQUIRED"
+                    }
+                },
+                "type": "object"
+            },
+            "ErrorResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationMeta": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "total": {
+                        "description": "Total number of records",
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "per_page": {
+                        "description": "Number of records per page",
+                        "type": "integer",
+                        "example": 20
+                    }
+                },
+                "type": "object"
+            },
+            "Campaign": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slug": {
+                        "description": "Campaign slug (format: {TYPE}-CMP-{timestamp}, e.g. BA-CMP, PF-CMP, VOD-CMP, EXT-CMP)",
+                        "type": "string",
+                        "example": "BA-CMP-1741358023"
+                    },
+                    "type": {
+                        "description": "Campaign type code",
+                        "type": "string",
+                        "example": "video"
+                    },
+                    "type_edit": {
+                        "description": "Whether campaign type can be changed (true if no ad sets yet)",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Summer Gaming Campaign"
+                    },
+                    "title_alternative": {
+                        "type": "string",
+                        "example": "Летняя кампания",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Brand awareness for gaming product launch"
+                    },
+                    "affiliate_network": {
+                        "description": "Affiliate network data",
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "category": {
+                        "description": "Campaign category",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Gaming"
+                            },
+                            "icon": {
+                                "type": "string",
+                                "example": "gaming-icon.svg"
+                            },
+                            "is_dark_market": {
+                                "type": "boolean",
+                                "example": false
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "holding": {
+                        "description": "Holding (advertiser group)",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Big Brand Holding"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": ""
+                            },
+                            "logo": {
+                                "type": "string",
+                                "example": "https://storage.googleapis.com/uplify/holdings/logo.png",
+                                "nullable": true
+                            },
+                            "advertisers": {
+                                "description": "Number of advertisers in this holding",
+                                "type": "integer",
+                                "example": 3
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "advertiser": {
+                        "description": "Advertiser",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 10
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Cool Brand Ltd"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": ""
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "media_agency": {
+                        "description": "Media agency",
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "start": {
+                        "description": "Campaign start date",
+                        "type": "string",
+                        "example": "2024-06-01",
+                        "nullable": true
+                    },
+                    "end": {
+                        "description": "Campaign end date",
+                        "type": "string",
+                        "example": "2024-08-31",
+                        "nullable": true
+                    },
+                    "time_zone": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "impressions": {
+                        "description": "Current impression count",
+                        "type": "integer",
+                        "example": 12500
+                    },
+                    "total_impressions": {
+                        "description": "Total purchased impressions",
+                        "type": "integer",
+                        "example": 50000
+                    },
+                    "budget": {
+                        "description": "Current spend",
+                        "type": "number",
+                        "format": "float",
+                        "example": 150
+                    },
+                    "total_budget": {
+                        "description": "Total campaign budget",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000
+                    },
+                    "avg_cpm": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 3.5
+                    },
+                    "channels": {
+                        "description": "Unique streamer channels count",
+                        "type": "integer",
+                        "example": 42
+                    },
+                    "clicks": {
+                        "type": "integer",
+                        "example": 87
+                    },
+                    "ctr": {
+                        "description": "Click-through rate, percent",
+                        "type": "number",
+                        "format": "float",
+                        "example": 0.7
+                    },
+                    "reach": {
+                        "description": "Unique viewers reached",
+                        "type": "integer",
+                        "example": 5000
+                    },
+                    "published": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "product_url_additional_params": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "ord_markup": {
+                        "type": "string",
+                        "example": "ord_token",
+                        "nullable": true
+                    },
+                    "closed": {
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
+            "AdSet": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "format": {
+                        "description": "Ad format",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Video Overlay"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": ""
+                            },
+                            "icon": {
+                                "type": "string",
+                                "example": "video-overlay.svg"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "format_edit": {
+                        "description": "Whether format can be changed",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "platform": {
+                        "description": "Target platform: twitch, youtube, trovo, vkplay, vklive, tiktok",
+                        "type": "string",
+                        "example": "twitch"
+                    },
+                    "campaign": {
+                        "description": "Parent campaign",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "slug": {
+                                "type": "string",
+                                "example": "BA-CMP-1741358023"
+                            },
+                            "type": {
+                                "type": "string",
+                                "example": "video"
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Summer Gaming Campaign"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": ""
+                            },
+                            "category": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Gaming"
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "example": "gaming-icon.svg"
+                                    },
+                                    "is_dark_market": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "visible": {
+                                "type": "boolean",
+                                "example": true
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "slug": {
+                        "description": "Ad set slug (format: {TYPE}-GRP-{timestamp})",
+                        "type": "string",
+                        "example": "BA-GRP-1741358023"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Twitch Gamers 18-35"
+                    },
+                    "title_alternative": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "start": {
+                        "type": "string",
+                        "example": "2024-06-01",
+                        "nullable": true
+                    },
+                    "end": {
+                        "type": "string",
+                        "example": "2024-08-31",
+                        "nullable": true
+                    },
+                    "start_view": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "end_view": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "strategy_payment": {
+                        "description": "Payment strategy: ppv (Pay per view), cpc (Pay per click), cpa (Pay per conversion), ppva (Pay per view and conversion bonus)",
+                        "type": "string",
+                        "example": "ppv"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "usd"
+                    },
+                    "bid_cap": {
+                        "type": "number",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "impressions": {
+                        "type": "integer",
+                        "example": 5000
+                    },
+                    "cpa": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "conversions": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "cpc": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "clicks": {
+                        "type": "integer",
+                        "example": 35
+                    },
+                    "cpa_day_limit": {
+                        "type": "number",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "cpc_day_limit": {
+                        "type": "number",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "streamer_day_limit": {
+                        "description": "Daily insertion limit per streamer. Null means unlimited.",
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "time_zone": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "target_ctr": {
+                        "type": "number",
+                        "example": 0.5
+                    },
+                    "target_evr": {
+                        "type": "number",
+                        "example": 0
+                    },
+                    "frequency": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "frequency_count": {
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "frequency_period": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "conversions_alert_animation": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "conversions_alert_text": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "targeting": {
+                        "description": "Targeting settings",
+                        "properties": {
+                            "gender": {
+                                "type": "string",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "age_from": {
+                                "type": "integer",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "age_to": {
+                                "type": "integer",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "min_cpm": {
+                                "type": "number",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "max_cpm": {
+                                "type": "number",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "exclude_streamers": {
+                                "description": "Whether streamers list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_languages": {
+                                "description": "Whether broadcaster_languages list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_countries": {
+                                "description": "Whether countries list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_tags": {
+                                "description": "Whether tags list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_countries_auditory": {
+                                "description": "Whether countries_auditory list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "exclude_devices_auditory": {
+                                "description": "Whether devices_auditory list is exclusionary",
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "mature": {
+                                "type": "boolean",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "audience_assessment": {
+                                "properties": {
+                                    "size": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "reach": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "count": {
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "streamers": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 101
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "StreamerNick"
+                                        },
+                                        "currency": {
+                                            "type": "string",
+                                            "example": "usd"
+                                        },
+                                        "agency": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Uplify Agency"
+                                                },
+                                                "currency": {
+                                                    "type": "string",
+                                                    "example": "usd"
+                                                },
+                                                "use_dark_market_cpm": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "cpm": {
+                                                    "properties": {
+                                                        "internal_cpm": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1.5
+                                                        },
+                                                        "external_cpm": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 3
+                                                        },
+                                                        "dark_market_internal_cpm": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1.5
+                                                        },
+                                                        "dark_market_external_cpm": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 3
+                                                        },
+                                                        "internal_cpc": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.1
+                                                        },
+                                                        "external_cpc": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.2
+                                                        },
+                                                        "dark_market_internal_cpc": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.1
+                                                        },
+                                                        "dark_market_external_cpc": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.2
+                                                        },
+                                                        "internal_cpa": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.5
+                                                        },
+                                                        "external_cpa": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1
+                                                        },
+                                                        "dark_market_internal_cpa": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0.5
+                                                        },
+                                                        "dark_market_external_cpa": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 1
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "cpm": {
+                                            "properties": {
+                                                "internal_cpm": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1.5
+                                                },
+                                                "external_cpm": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 3
+                                                },
+                                                "dark_market_internal_cpm": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1.5
+                                                },
+                                                "dark_market_external_cpm": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 3
+                                                },
+                                                "internal_cpc": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.1
+                                                },
+                                                "external_cpc": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.2
+                                                },
+                                                "dark_market_internal_cpc": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.1
+                                                },
+                                                "dark_market_external_cpc": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.2
+                                                },
+                                                "internal_cpa": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.5
+                                                },
+                                                "external_cpa": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1
+                                                },
+                                                "dark_market_internal_cpa": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0.5
+                                                },
+                                                "dark_market_external_cpa": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "broadcaster_languages": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "countries": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "tags": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "agencies": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Uplify Agency"
+                                        },
+                                        "currency": {
+                                            "type": "string",
+                                            "example": "usd"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "countries_auditory": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "devices_auditory": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "published": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "priority": {
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
+            "Ad": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "BA-CRV-mp4-1741358023"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Banner Creative"
+                    },
+                    "title_alternative": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "attachments": {
+                        "description": "Key-value map of attachment type to file info. Keys depend on ad format (e.g. 'video', 'zip', 'unit'). Each value is null or {size: int, path: string, basename: string, basedir: string, properties: object, extend: object}.",
+                        "type": "object"
+                    },
+                    "product_url": {
+                        "type": "string",
+                        "example": "https://example.com/product",
+                        "nullable": true
+                    },
+                    "mobile_product_url": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "chatbot_text": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "companion_heading": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "companion_text": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "companion_cta": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "qr_code": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "script_code": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "pixel_clicks": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_clicks_scripts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_impressions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_inspections": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_quertels_25": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_quertels_50": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pixel_quertels_75": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "product_url_additional_params": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "legal_compliance": {
+                        "properties": {
+                            "erid": {
+                                "properties": {
+                                    "media": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "text": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "marker": {
+                                "properties": {
+                                    "media": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "text": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "visible": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "MessageResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ErrorMessage"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "parameters": {
+            "page": {
+                "name": "page",
+                "in": "query",
+                "description": "Page number for pagination",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1,
+                    "default": 1
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "Sanctum",
+                "description": "Enter your Bearer token."
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Dictionary",
+            "description": "Reference data: countries, currencies, categories, etc."
+        }
+    ]
+}

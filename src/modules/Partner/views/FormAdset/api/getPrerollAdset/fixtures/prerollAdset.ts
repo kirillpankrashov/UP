@@ -1,0 +1,165 @@
+import { AdFormat, CampaignType, CurrencyIcon, CurrencyName, PayoutType,Platform } from '@/core/types'
+
+import { type IPrerollAdset } from '../types'
+
+export const prerollAdset: IPrerollAdset = {
+	'id': 1,
+	'format': {
+		'id': AdFormat.PREROLL,
+		'title': 'Pre-Roll',
+		'description': 'Короткие видеоролики, которые воспроизводятся перед основным контентом, идеально подходят для привлечения внимания и повышения узнаваемости бренда.',
+		'icon': 'https://uplify-storage.s3.eu-central-1.amazonaws.com/formats/151f3c55-5f32-457e-af63-387ba6047981',
+	},
+	'formatEdit': true,
+	'platform': Platform.YOUTUBE,
+	'campaign': {
+		'id': 553,
+		'slug': 'VOD-CMP-1725691784',
+		'type': CampaignType.PREROLL,
+		'title': 'India // Nestle Nescafe // VOD test campaign',
+		'description': 'Nestle Nescafe VOD test',
+		'category': {
+			'id': 7,
+			'title': 'FMCG',
+			'icon': '',
+			'darkMarket': false,
+		},
+		'holding': {
+			'id': 108,
+			'title': 'Nestle (India)',
+			'description': '',
+			'logo': 'https://uplify-storage.s3.eu-central-1.amazonaws.com/holdings/773173da-a226-4761-854e-da36787e1b4d',
+			'advertisers': 1,
+		},
+		'advertiser': {
+			'id': 153,
+			'title': 'Nestle (India)',
+			'description': '',
+			'wallet': {
+				'balance': 16390.25,
+				'currency': {
+					'code': CurrencyName.INR,
+					'enTitle': 'Rupee',
+					'ruTitle': 'Рупий',
+					'flag': CurrencyIcon.INR,
+					'visible': true,
+					'ptTitle': 'Rupee',
+					'esTitle': 'Rupee',
+				},
+				'icon': CurrencyIcon.INR,
+			},
+			'holding': {
+				'id': 108,
+				'title': 'Nestle (India)',
+				'description': '',
+				'logo': 'https://uplify-storage.s3.eu-central-1.amazonaws.com/holdings/773173da-a226-4761-854e-da36787e1b4d',
+				'advertisers': 1,
+			},
+		},
+		'start': '09.10.2024',
+		'end': '15.11.2024',
+		'published': true,
+		'visible': false,
+	},
+	'slug': 'VOD-GRP-1725827732',
+	'title': 'India // Nestle Nescafe // VOD test group',
+	'titleAlternative': '',
+	'description': 'India Nestle Nescafe VOD test',
+	'start': '09.10.2024',
+	'end': '15.11.2024',
+	'startView': '18:30:00',
+	'endView': '18:45:00',
+	'payableType': PayoutType.IMPRESSIONS,
+	'currency': {
+		'code': CurrencyName.INR,
+		'enTitle': 'Rupee',
+		'ruTitle': 'Рупий',
+		'ptTitle': 'Rupee',
+		'esTitle': 'Rupee',
+		'flag': CurrencyIcon.INR,
+		'visible': true,
+	},
+	'bidCap': 250,
+	'impressions': 1000,
+	'bidCpa': 0,
+	'budget': 0,
+	'targetCpa': null,
+	'targetCtr': null,
+	'productUrl': 'https://www.nestle.in/',
+	'mobileProductUrl': '',
+	'videoDescriptionText': 'Grab your refreshingly delicious Nescafe cold coffee',
+	'pixelClicks': [],
+	'pixelClicksScripts': '',
+	'attachments': {
+		'unit': {
+			'size': 8723055,
+			'path': 'https://uplify-storage.s3.eu-central-1.amazonaws.com/preroll/c891fb45-a7d3-4a97-89e9-36cfaa24dddf.mp4',
+			'basename': 'c891fb45-a7d3-4a97-89e9-36cfaa24dddf.mp4',
+			'basedir': 'creatives',
+			'properties': {
+				'size': 8723055,
+				'duration': 20,
+				'frames': 30,
+				'width': 1920,
+				'height': 1080,
+				'audio': 'aac',
+			},
+		},
+	},
+	'targeting': {
+		'streamers': {
+			'list': [
+				{
+					'id': 6,
+					'name': 'ohmyboroda',
+					'currency': null,
+					'agency': null,
+					'cpm': null,
+				},
+				{
+					'id': 16065,
+					'name': 'shaketime9',
+					'currency': null,
+					'agency': null,
+					'cpm': null,
+				},
+			],
+			'exclude': false,
+		},
+		'countries': {
+			'list': [
+				'in',
+				'ru',
+			],
+			'exclude': false,
+		},
+		'tags': {
+			'list': [],
+			'exclude': false,
+		},
+		'countriesAuditory': {
+			'list': [],
+			'exclude': false,
+		},
+		'devicesAuditory': {
+			'list': [],
+			'exclude': false,
+		},
+		'broadcasterLanguages': {
+			'list': [],
+			'exclude': false,
+		},
+	},
+	'legalCompliance': {
+		'erid': {
+			'media': null,
+			'text': null,
+		},
+		'marker': {
+			'media': null,
+			'text': null,
+		},
+	},
+	'published': true,
+	'visible': true,
+}

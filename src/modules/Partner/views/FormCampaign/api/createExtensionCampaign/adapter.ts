@@ -1,0 +1,24 @@
+import type {
+	ICreateExtensionCampaignData,
+	ICreateExtensionCampaignPayload,
+} from './types'
+
+export const dataToPayload = (data: ICreateExtensionCampaignData): ICreateExtensionCampaignPayload => {
+	return {
+		title: data.title,
+		description: data.description,
+		category: data.category === undefined ? null : data.category,
+		holding: data.holding === undefined ? null : data.holding,
+		advertiser: data.advertiser === undefined ? null : data.advertiser,
+		end: data.end || null,
+		start: data.start || null,
+		product_url_additional_params: data.productUrlParams.reduce((acc, item) => {
+			if (item.name && item.param) {
+				acc[item.name] = item.param
+			}
+			return acc
+		}, {} as Record<string, string>),
+		media_agency: data.mediaAgency === undefined ? null : data.mediaAgency,
+		ord_markup: data.ordMarkup,
+	}
+}

@@ -1,0 +1,181 @@
+import { CurrencyIcon, CurrencyName } from '@/core/types'
+
+import type { ICampaignStatistics } from '../types'
+
+export const campaignStatistics: ICampaignStatistics = {
+	'title': 'India //APV/ 12th June to 22nd June 2025',
+	'status': false,
+	'updatedAt': '2025-07-07 12:58:12',
+	'dates': {
+		'start': '2025-06-12 00:00:00',
+		'end': '2025-06-22 23:59:59',
+	},
+	'impressions': {
+		'current': 6249976,
+		'limit': 6250000,
+	},
+	'spent': {
+		'current': 1562494,
+		'limit': 1562500,
+	},
+	'ctr': 0,
+	'clicksTotal': 249,
+	'fills': 5411,
+	'reach': 593847,
+	'channels': 70,
+	'categories': 2,
+	'avgCpm': 250,
+	'advertiser': {
+		'id': 167,
+		'title': 'Amazon Prime Video (India)',
+		'description': '',
+		'wallet': {
+			'balance': -0.5,
+			'currency': {
+				'code': CurrencyName.INR,
+				'enTitle': 'Rupee',
+				'ruTitle': 'Рупий',
+				'flag': CurrencyIcon.INR,
+				'visible': true,
+				'ptTitle': 'Rupee',
+				'esTitle': 'Rupee',
+			},
+			'icon': CurrencyIcon.INR,
+		},
+		'holding': {
+			'id': 119,
+			'title': 'Amazon Prime Video (India)',
+			'description': '',
+			'logo': 'https://uplify-storage.s3.eu-central-1.amazonaws.com/holdings/ca5a76ba-3401-490c-8f56-0f2b5a8e5d4e',
+			'advertisers': 1,
+		},
+	},
+	'data': [
+		{
+			'date': '2025-06-12',
+			'impressions': 728286,
+			'clicks': 6,
+			'ctr': 0,
+		},
+		{
+			'date': '2025-06-13',
+			'impressions': 514126,
+			'clicks': 2,
+			'ctr': 0,
+		},
+		{
+			'date': '2025-06-14',
+			'impressions': 679135,
+			'clicks': 10,
+			'ctr': 0,
+		},
+		{
+			'date': '2025-06-15',
+			'impressions': 595020,
+			'clicks': 173,
+			'ctr': 0.03,
+		},
+		{
+			'date': '2025-06-16',
+			'impressions': 637376,
+			'clicks': 12,
+			'ctr': 0,
+		},
+		{
+			'date': '2025-06-17',
+			'impressions': 707447,
+			'clicks': 13,
+			'ctr': 0,
+		},
+		{
+			'date': '2025-06-18',
+			'impressions': 624543,
+			'clicks': 5,
+			'ctr': 0,
+		},
+		{
+			'date': '2025-06-19',
+			'impressions': 643174,
+			'clicks': 9,
+			'ctr': 0,
+		},
+		{
+			'date': '2025-06-20',
+			'impressions': 1110065,
+			'clicks': 9,
+			'ctr': 0,
+		},
+		{
+			'date': '2025-06-21',
+			'impressions': 10804,
+			'clicks': 10,
+			'ctr': 0.09,
+		},
+	],
+	'creatives': [
+		{
+			'adsetName': 'India //APV/ 12th June to 22nd June 2025',
+			'creativeName': 'Creative 1',
+			'format': 'Overlay 50%',
+			'impressions': 6249976,
+			'reach': 593847,
+			'clicks': 249,
+			'ctr': 0,
+			'spent': 1562494,
+		},
+	],
+	'topChannels': [
+		{
+			'name': 'UnGraduate Gamer',
+			'image': 'https://yt3.ggpht.com/ytc/AIdro_mMhlv_ju_na5s0Nqztwypj6fQpae9GkcdpL2jBsVNv6OA=s800-c-k-c0x00ffffff-no-rj',
+			'impressions': 2588674,
+			'reach': 0,
+			'clicks': 1,
+			'ctr': 0,
+		},
+		{
+			'name': 'Sniper Lord',
+			'image': 'https://yt3.ggpht.com/ytc/AIdro_nlmzTiUPuLgmnBhvPeOQygH5BwyfF1ZM0zC8ljbI8A4EM=s800-c-k-c0x00ffffff-no-rj',
+			'impressions': 635075,
+			'reach': 0,
+			'clicks': 6,
+			'ctr': 0,
+		},
+		{
+			'name': 'PHUKKA',
+			'image': 'https://yt3.ggpht.com/K8FE7NF9Ea2mzKvcQbF_7hsmrM6Dii11fYJe-QZz7XB11FGK_dH7J1TFa5h8W4AqtTD3ZR2w=s800-c-k-c0x00ffffff-no-rj',
+			'impressions': 575439,
+			'reach': 0,
+			'clicks': 1,
+			'ctr': 0,
+		},
+		{
+			'name': 'Princess Gaming',
+			'image': 'https://yt3.ggpht.com/QM1QSeoBzUgLbDCwYpAyREuN8drTnTssYNEIIE2ZWMSjTiqxbVvt8Ad2LS40Ze2Ve16P3x6d=s800-c-k-c0x00ffffff-no-rj',
+			'impressions': 492602,
+			'reach': 0,
+			'clicks': 0,
+			'ctr': 0,
+		},
+		{
+			'name': 'Mayur Gaming React',
+			'image': 'https://yt3.ggpht.com/O4aM-ZLEl0e5vFMwEtpVUFtWcIHY-C4bjNNO8oYz6mh2RdVHlJr6JZRyTwnJLaoRrhFc7p5Y=s800-c-k-c0x00ffffff-no-rj',
+			'impressions': 351523,
+			'reach': 0,
+			'clicks': 0,
+			'ctr': 0,
+		},
+	],
+	'topCategories': [
+		{
+			'name': 'Gaming',
+			'image': 'https://static-cdn.jtvnw.net/ttv-boxart/Gaming-136x190.jpg',
+			'impressions': 6249953,
+		},
+		{
+			'name': 'Entertainment',
+			'image': 'https://static-cdn.jtvnw.net/ttv-boxart/Entertainment-136x190.jpg',
+			'impressions': 23,
+		},
+	],
+}

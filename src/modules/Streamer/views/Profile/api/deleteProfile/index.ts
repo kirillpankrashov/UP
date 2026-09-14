@@ -1,0 +1,1 @@
+export { deleteProfile } from './api'

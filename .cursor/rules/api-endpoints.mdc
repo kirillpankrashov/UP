@@ -1,0 +1,95 @@
+---
+description: API endpoint conventions (client, adapters, caching)
+globs: **/api/**/*.ts
+alwaysApply: false
+---
+
+# API Endpoints
+
+API endpoints are frontend API client functions that call the backend via `Api` from `@/core/client`. One folder per endpoint with `api.ts`, `adapter.ts`, `types.ts`.
+
+## Folder structure
+
+```
+views/SomeView/api/actionName/
+  api.ts     — Api.get/post/patch/delete calls
+  adapter.ts — responseToData, dataToPayload
+  types.ts   — IData, IPayload, IResponse
+  index.ts   — re-export (optional)
+  fixtures/  — for tests (optional)
+```
+
+## api.ts
+
+- Import `Api` from `@/core/client`, not raw axios (except external webhooks)
+- Path without leading slash: `'streamer/profile'`, `'partner/campaigns/brand_awareness/ad-set/create'`
+- Chain adapter in `.then(res => responseToData(res))`
+
+```typescript
+// Simple GET
+import type { TStreamer, TStreamerResponse } from '@/core/types'
+import { Api } from '@/core/client'
+import { responseToData } from './adapter'
+
+export const getProfile = (): Promise<TStreamer> => {
+	return Api.get<TStreamerResponse>('streamer/profile').then(res => responseToData(res))
+}
+```
+
+```typescript
+// GET with cache
+import { Api, CacheTTL } from '@/core/client'
+import { responseToData } from './adapter'
+import type { IData, IResponse } from './types'
+
+export const getList = (): Promise<IData> => {
+	return Api.get<IResponse>('streamer/campaigns/brand_awareness', undefined, {
+		cache: { id: 'streamer-brand-awareness-adsets', ttl: CacheTTL.ONE_HOUR },
+	}).then(res => responseToData(res))
+}
+```
+
+```typescript
+// POST with payload and invalidation
+import type { IResponse } from '@/core/types/response'
+import { Api } from '@/core/client'
+import { dataToPayload } from './adapter'
+import { responseToData } from '../getItem/adapter'
+
+export const create = (data: ICreateData): Promise<IItem> => {
+	return Api.post<IResponse<{ ad_set: IItemResponse }>>(
+		'partner/campaigns/brand_awareness/ad-set/create',
+		dataToPayload(data),
+		{
+			cache: {
+				update: {
+					'adsets': { type: 'deletePrefix', value: 'partner-brand-awareness-adsets' },
+				},
+			},
+		},
+	).then(res => responseToData(res.ad_set))
+}
+```
+
+## adapter.ts
+
+- `responseToData(response: TResponse): TData` — backend snake_case → frontend camelCase
+- `dataToPayload(data: TData): TPayload` — for POST/PATCH: frontend → backend snake_case
+- snake_case for payload/response, camelCase for data
+
+## types.ts
+
+- `IData` / `ICreateXData` — UI data (camelCase)
+- `IPayload` / `ICreateXPayload` — request body (snake_case)
+- `IResponse` / `IXResponse` — backend response (snake_case)
+- Use `IResponse<T>` from `@/core/types` when needed
+
+## Caching
+
+- **GET:** `cache: { id: string, ttl: CacheTTL }` — `CacheTTL.ONE_DAY`, `ONE_HOUR`, `ONE_MINUTE`, `ONE_SECOND` from `@/core/client`
+- **Mutations:** `cache: { update: Record<string, { type: 'deletePrefix'; value: string }> }` — invalidation by prefix
+
+## Exceptions
+
+- External webhooks (n8n, etc.) — use `axios` directly
+- `options`: `showMessage`, `throwOnStatusFalse` — suppress toasts/errors

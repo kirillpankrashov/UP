@@ -1,0 +1,1 @@
+export { updateWidget } from './api'

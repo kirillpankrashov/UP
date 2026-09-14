@@ -1,0 +1,1 @@
+export { detachStreamer } from './api'

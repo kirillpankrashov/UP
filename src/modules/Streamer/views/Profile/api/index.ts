@@ -1,0 +1,5 @@
+export { attachPlatform } from './attachPlatform'
+export { deleteProfile } from './deleteProfile'
+export { deleteProfileRollback } from './deleteProfileRollback'
+export { resendEmail } from './resendEmail'
+export { getProfile } from './getProfile'

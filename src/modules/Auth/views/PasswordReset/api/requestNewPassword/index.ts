@@ -1,0 +1,1 @@
+export { requestNewPassword } from './api'

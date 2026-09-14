@@ -1,0 +1,13 @@
+---
+description: Links to backend API documentation (partner/streamer/definitions)
+alwaysApply: true
+---
+
+# API Documentation
+
+- **Partner API docs**: `https://staging.streamstack.cc/api/documentation?urls.primaryName=Partner+API`
+- **Streamer API docs**: `https://staging.streamstack.cc/api/documentation?urls.primaryName=Streamer+API`
+- **All docs entrypoint**: `https://staging.streamstack.cc/api/documentation`
+
+Additional specifications (partner/streamer/etc.) can be found at the main documentation URL by filtering the list by the desired `definition`.
+

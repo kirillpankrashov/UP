@@ -1,0 +1,1 @@
+export { default as FormatItem } from './FormatItem/FormatItem.vue'

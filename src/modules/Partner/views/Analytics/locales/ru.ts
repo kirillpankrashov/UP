@@ -1,0 +1,58 @@
+import { default as baseDict } from './en'
+
+const dict: typeof baseDict = {
+	analytics: {
+		fetchingData: 'Загрузка данных...',
+		campaignOverview: 'Обзор кампании',
+		creators: 'Авторы',
+		categories: 'Категории',
+		status: 'Статус',
+		active: 'Активные',
+		inactive: 'Неактивные',
+		updated: 'Обновлено',
+		downloadCSV: 'Скачать CSV',
+		downloadExcel: 'Скачать Excel',
+		impressions: 'Просмотры',
+		CTR: 'CTR',
+		spent: 'Потрачено',
+		fills: 'Вставки',
+		reach: 'Охват',
+		channels: 'Каналы',
+		avgCPM: 'Средний CPM',
+		totalClicks: 'Всего кликов',
+		clicks: 'Клики',
+		adFormat: 'Формат',
+		outOf: 'Из',
+		creator: 'Автор',
+		category: 'Категория',
+		runATestCampaignToday: 'Запустите тестовую кампанию уже сегодня',
+		viewability: 'Видимость',
+		overviewTab: {
+			startDate: 'Дата начала',
+			endDate: 'Дата окончания',
+			title: 'Показатели кампании',
+			performanceTitle: 'Показатели по дням',
+			creativeStats: 'Статистика креативов',
+			allCategories: 'Все категории',
+			groupName: 'Название группы',
+			creativeName: 'Название креатива',
+			top5Channels: 'Топ 5 каналов',
+			top5Categories: 'Топ 5 категорий',
+			creatorsLinkCaption: 'Перейти ко всем авторам',
+			categoriesLinkCaption: 'Перейти ко всем категориям',
+		},
+		creatorsTab: {
+			title: 'Эффективность РК по авторам',
+		},
+		categoriesTab: {
+			title: 'Эффективность РК по категориям',
+			otherCategories: 'Другие категории',
+		},
+		needHelp: 'Мне нужна помощь',
+		getStarted: 'Начать',
+		poweredBy: 'Работает на Uplify',
+		runAtestCampaignToday: 'Запустить тестовую кампанию сегодня!',
+	},
+}
+
+export default dict

@@ -1,0 +1,13 @@
+[
+  {
+    "origin": [
+			"https://*.ext-twitch.tv",
+			"https://localhost:5173",
+			"https://*.uplify.app",
+			"http://dashboard.uplify:8080"
+		],
+    "method": ["GET", "PUT", "POST", "OPTIONS"],
+    "responseHeader": ["Content-Type", "x-goog-resumable"],
+    "maxAgeSeconds": 3600
+  }
+]

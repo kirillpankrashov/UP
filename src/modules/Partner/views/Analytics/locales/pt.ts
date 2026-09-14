@@ -1,0 +1,58 @@
+import { default as baseDict } from './en'
+
+const dict: typeof baseDict = {
+	analytics: {
+		fetchingData: 'Carregando dados...',
+		campaignOverview: 'Resumo da campanha',
+		creators: 'Criadores',
+		categories: 'Categorias',
+		status: 'Status',
+		active: 'Ativo',
+		inactive: 'Inativo',
+		updated: 'Atualizado',
+		downloadCSV: 'Baixar CSV',
+		downloadExcel: 'Baixar Excel',
+		impressions: 'Vistas',
+		CTR: 'CTR',
+		spent: 'Gasto',
+		fills: 'Preenchimentos',
+		reach: 'Alcance',
+		channels: 'Canais',
+		avgCPM: 'CPM Médio',
+		totalClicks: 'Total de cliques',
+		clicks: 'Cliques',
+		adFormat: 'Formato',
+		outOf: 'De',
+		creator: 'Criador',
+		category: 'Categoria',
+		runATestCampaignToday: 'Faça hoje uma campanha de teste!',
+		viewability: 'Visibilidade',
+		overviewTab: {
+			startDate: 'Data de início',
+			endDate: 'Data de fim',
+			title: 'Interactive da campanha',
+			performanceTitle: 'Interactive por dia',
+			creativeStats: 'Estatísticas dos criativos',
+			allCategories: 'Todas as categorias',
+			groupName: 'Nome do grupo',
+			creativeName: 'Nome do criativo',
+			top5Channels: 'Top 5 canais',
+			top5Categories: 'Top 5 categorias',
+			creatorsLinkCaption: 'Ir a todos os criadores',
+			categoriesLinkCaption: 'Ir para todas as categorias',
+		},
+		creatorsTab: {
+			title: 'Interactive dos criadores',
+		},
+		categoriesTab: {
+			title: 'Interactive das categorias',
+			otherCategories: 'Outras categorias',
+		},
+		needHelp: 'Precisa de ajuda?',
+		getStarted: 'Começar',
+		poweredBy: 'Powered by Uplify',
+		runAtestCampaignToday: 'Execute uma campanha de teste hoje!',
+	},
+}
+
+export default dict

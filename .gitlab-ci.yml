@@ -1,0 +1,46 @@
+image: node:16
+
+stages:
+  - deploy
+  - review
+
+variables:
+  ALPHA: "alpha"
+  BETA: "beta"
+
+after-push-to-master:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "release"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+  script:
+    - cd ./cicd
+    - npm ci
+    - chmod +x ./*
+    - ./deploy-stages-after-master-update.job.js $CI_COMMIT_BRANCH
+
+deploy_to_stages:
+  stage: deploy
+  only:
+    refs:
+      - merge_requests
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "release" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
+  except:
+    - schedules
+  script:
+    - cd ./cicd
+    - npm ci
+    - chmod +x ./*
+    - ./deploy-stages.job.js $CI_MERGE_REQUEST_LABELS
+
+notify_about_review:
+  stage: review
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  script:
+    - cd ./cicd
+    - npm ci
+    - chmod +x ./*
+    - ./notify-about-review.job.js $CI_MERGE_REQUEST_LABELS

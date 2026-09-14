@@ -1,0 +1,1 @@
+export { attachPlatform } from './api'

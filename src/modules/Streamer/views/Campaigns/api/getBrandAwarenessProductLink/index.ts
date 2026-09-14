@@ -1,0 +1,1 @@
+export { getBrandAwarenessProductLink } from './api'

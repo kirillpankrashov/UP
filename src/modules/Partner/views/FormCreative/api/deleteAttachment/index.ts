@@ -1,0 +1,1 @@
+export { deleteAttachment } from './api'

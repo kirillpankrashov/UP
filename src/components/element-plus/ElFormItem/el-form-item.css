@@ -1,0 +1,13 @@
+.el-form-item {
+	margin-bottom: 24px;
+}
+
+.el-form-item__label {
+	color: var(--el-color-dark-gray);
+}
+
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
+	content: "*";
+	color: var(--el-color-danger);
+	margin-right: 4px;
+}

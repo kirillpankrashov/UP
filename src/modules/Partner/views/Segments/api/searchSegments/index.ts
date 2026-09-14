@@ -1,0 +1,1 @@
+export { searchSegments } from './api'

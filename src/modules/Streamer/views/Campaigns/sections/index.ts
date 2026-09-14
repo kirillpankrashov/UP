@@ -1,0 +1,6 @@
+export { default as CurrentPlatform } from './CurrentPlatform/CurrentPlatform.vue'
+export { default as UplifyLink } from './UplifyLink/UplifyLink.vue'
+export { default as AdsetsActive } from './AdsetsActive/AdsetsActive.vue'
+export { default as AdsetsClosed } from './AdsetsClosed/AdsetsClosed.vue'
+export { default as Analytics } from './Analytics/Analytics.vue'
+export { default as AdsetInfo } from './AdsetInfo/AdsetInfo.vue'

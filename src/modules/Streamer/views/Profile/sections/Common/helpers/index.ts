@@ -1,0 +1,1 @@
+export { handleSubmit } from './handleSubmit'

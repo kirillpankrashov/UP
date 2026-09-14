@@ -1,0 +1,1 @@
+export { verifyAttachment } from './api'

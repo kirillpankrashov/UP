@@ -1,0 +1,36 @@
+---
+alwaysApply: false
+---
+
+# Product Overview
+
+## Problem
+Advertising platform for streamers. The frontend consists of several parts. 1. Streamer dashboard: ad display settings, ad selection, balance. 2. Partner dashboard: ad creation, targeting, streamer segmentation, analytics. 3. Widget – OBS web layer for displaying ads in streams.
+
+## Target Users
+Streamers and partners/advertisers
+
+## Unique Value
+Advertising campaigns and unique formats for streamers.
+
+---
+
+# Technical Context
+
+## Frontend
+Vue 3, TypeScript, Vite, Element Plus, Tailwind CSS
+
+## Backend
+N/A
+
+## Database
+N/A
+
+## Testing
+Vitest, Vue Test Utils, jsdom
+
+## Logging & Monitoring
+Sentry for error tracking
+
+## Other
+Laravel Echo/Pusher for real-time, Firebase for hosting, OBS WebSocket for OBS Studio integration

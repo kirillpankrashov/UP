@@ -1,0 +1,1 @@
+export { getPoll } from './api'

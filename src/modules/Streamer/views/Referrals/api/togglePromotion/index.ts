@@ -1,0 +1,1 @@
+export { togglePromotion } from './api'

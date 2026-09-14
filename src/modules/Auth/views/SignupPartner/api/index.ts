@@ -1,0 +1,1 @@
+export { partnerSignup } from './partnerSignup'

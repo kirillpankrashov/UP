@@ -1,0 +1,16 @@
+export enum SocketEvent {
+	WIDGET_UPDATED = '.widget.params.updated',
+	WIDGET_REFRESH = '.widget.refresh',
+	MANUAL_LAUNCH = '.manual.launch',
+	AUTO_LAUNCH = '.auto.launch',
+	DEMO_REAL_LAUNCH = '.demo.real.launch',
+	DEMO_LAUNCH = '.demo.launch',
+	DEMO_REFERRAL_LAUNCH = '.demo.referral.launch',
+	FETCHING_AD = '.fetching-ad',
+	REFERRAL_LAUNCH = '.referral.launch',
+	CHATBOT_MESSAGE_SENT = '.chatbot-message-sent',
+	FREEMIUM_PREVIEW = '.freemium-preview',
+	FREEMIUM_SETUP = '.freemium.params.setup',
+	CHATBOT_DISCONNECT = '.chatbot.disconnected',
+	SUBSCRIPTION_COUNT = '.pusher:subscription_count',
+}

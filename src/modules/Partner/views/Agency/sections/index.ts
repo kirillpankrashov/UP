@@ -1,0 +1,6 @@
+export { default as Overview } from './Overview/Overview.vue'
+export { default as History } from './History/History.vue'
+export { default as Streamers } from './Streamers/Streamers.vue'
+export { default as AdsetsActive } from './AdsetsActive/AdsetsActive.vue'
+export { default as AdsetsClosed } from './AdsetsClosed/AdsetsClosed.vue'
+export { default as Billing } from './Billing/Billing.vue'

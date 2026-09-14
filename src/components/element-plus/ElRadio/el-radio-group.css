@@ -1,0 +1,7 @@
+.el-radio-group {
+	width: 100%;
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	font-size: 0
+}

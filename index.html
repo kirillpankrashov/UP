@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Uplify</title>
+
+		<script src="https://tally.so/widgets/embed.js"></script>
+
+		<% if(process.env.NODE_ENV === 'production') { %>
+		<!-- Google Tag Manager -->
+		<script>
+			(function (w, d, s, l, i) {
+				w[l] = w[l] || [];
+				w[l].push({
+					"gtm.start": new Date().getTime(),
+					event: "gtm.js",
+				});
+				var f = d.getElementsByTagName(s)[0],
+					j = d.createElement(s),
+					dl = l != "dataLayer" ? "&l=" + l : "";
+				j.async = true;
+				j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+				f.parentNode.insertBefore(j, f);
+			})(window, document, "script", "dataLayer", "GTM-MVJX55H");
+		</script>
+		<!-- End Google Tag Manager -->
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=UA-197751377-1"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+			gtag("config", "UA-197751377-1");
+		</script>
+
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript">
+			(function(m,e,t,r,i,k,a){
+				m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+				m[i].l=1*new Date();
+				for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+				k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+			})(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=<%= VITE_APP_YANDEX_METRIKA_ID %>', 'ym');
+
+			ym('<%= VITE_APP_YANDEX_METRIKA_ID %>', 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+		</script>
+		<!-- /Yandex.Metrika counter -->
+		<% } %>
+		<script>
+			var beamer_config = {
+				product_id: "KivTmYKf36542",
+			};
+		</script>
+		<script
+			type="text/javascript"
+			src="https://app.getbeamer.com/js/beamer-embed.js"
+			defer="defer"
+		></script>
+
+		<script src="https://vjs.zencdn.net/5.4.6/video.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/videojs-vast-vpaid/2.0.2/videojs_5.vast.vpaid.min.js"
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="module" src="/src/main.ts"></script>
+		<style>
+			#beamerSelector {
+				display: none;
+			}
+		</style>
+	</body>
+</html>

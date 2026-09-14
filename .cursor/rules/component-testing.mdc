@@ -1,0 +1,626 @@
+---
+description: Rules for writing Vue component tests
+globs: **/*.test.ts
+alwaysApply: false
+---
+
+# Component Testing Rules
+
+## Testing Philosophy
+
+### Focus on Business Logic
+
+Write tests that verify **business logic** and **user-facing behavior**. Tests should validate that the component works correctly from the user's perspective.
+
+```typescript
+// ✅ Good - tests business logic
+it('displays error message when API call fails', async () => {
+  (ApiModule.fetchData as Mock).mockRejectedValueOnce(new Error('Failed'))
+  const { wrapper } = factory()
+  await nextTick()
+  expect(wrapper.find('[data-test="error-message"]').exists()).toBe(true)
+})
+
+// ✅ Good - tests user interaction
+it('submits form when submit button is clicked', async () => {
+  const { wrapper } = factory()
+  await wrapper.find('[data-test="submit-button"]').trigger('click')
+  expect(wrapper.emitted('submit')).toBeTruthy()
+})
+
+// ❌ Bad - testing library implementation
+it('calls nextTick', async () => {
+  await nextTick()
+  // This doesn't test anything meaningful
+})
+
+// ❌ Bad - testing that Vue works
+it('renders component', () => {
+  const { wrapper } = factory()
+  expect(wrapper.exists()).toBe(true)
+  // This just tests that Vue can render, not our code
+})
+```
+
+### Avoid Empty Tests
+
+Don't write tests just to increase coverage. Every test should verify meaningful behavior:
+
+```typescript
+// ❌ Bad - empty test that doesn't verify anything
+it('renders component', () => {
+  const { wrapper } = factory()
+  // No assertions, just checking it doesn't crash
+})
+
+// ✅ Good - test verifies specific behavior
+it('renders form fields in create mode', () => {
+  const { wrapper } = factory()
+  expect(wrapper.find('[data-test="title-input"]').exists()).toBe(true)
+  expect(wrapper.find('[data-test="description-input"]').exists()).toBe(true)
+})
+```
+
+### Don't Test Third-Party Libraries
+
+Don't test that libraries work - they have their own tests. Test how your component uses them:
+
+```typescript
+// ❌ Bad - testing that Element Plus works
+it('ElInput receives modelValue prop', () => {
+  const { wrapper } = factory()
+  const input = wrapper.findComponent({ name: 'ElInput' })
+  expect(input.props('modelValue')).toBe('test')
+  // This just tests Element Plus, not our logic
+})
+
+// ✅ Good - testing our component's behavior with ElInput
+it('updates modelValue when user types in input', async () => {
+  const { wrapper } = factory()
+  const input = wrapper.find('[data-test="title-input"]')
+  await input.setValue('New Title')
+  expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+})
+```
+
+### Don't Chase Coverage Metrics
+
+Code coverage is a tool, not a goal. Focus on testing critical paths and edge cases:
+
+```typescript
+// ❌ Bad - writing tests for every getter/setter
+it('has getter for title', () => {
+  const { wrapper } = factory()
+  expect(wrapper.vm.title).toBeDefined()
+})
+
+// ✅ Good - testing that title affects rendering
+it('displays title in header when provided', () => {
+  const { wrapper } = factory({ title: 'Test Title' })
+  expect(wrapper.find('[data-test="header"]').text()).toContain('Test Title')
+})
+```
+
+### Test User Scenarios
+
+Write tests that reflect real user workflows:
+
+```typescript
+// ✅ Good - tests complete user flow
+it('allows user to create campaign with required fields', async () => {
+  const { wrapper, store } = factory()
+  
+  // User fills form
+  await wrapper.find('[data-test="title-input"]').setValue('Campaign Title')
+  await wrapper.find('[data-test="description-input"]').setValue('Description')
+  
+  // User submits
+  await wrapper.find('[data-test="submit-button"]').trigger('click')
+  
+  // Verify result
+  expect(store.createCampaign).toHaveBeenCalledWith({
+    title: 'Campaign Title',
+    description: 'Description',
+  })
+})
+```
+
+## Test File Structure
+
+### Basic Imports
+
+```typescript
+import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
+import { createTestingPinia } from '@pinia/testing'
+```
+
+### Using describe
+
+Group component tests in a `describe` block. The describe block name should include the **section name** and **component name**:
+
+```typescript
+// ✅ Correct - includes section and component name
+describe('FormAdset Performance Component', () => {
+  // tests
+})
+
+describe('Streamer Campaigns CurrentPlatform Component', () => {
+  // tests
+})
+
+describe('FormDescription Component', () => {
+  // tests
+})
+
+// ✅ Correct - for deeply nested components, include full path
+describe('Streamer Campaigns AdsetInfo Info BrandAwareness PPVA', () => {
+  // tests
+})
+
+describe('Streamer Link Alerts Supporters', () => {
+  // tests
+})
+
+// ❌ Incorrect - missing section context
+describe('Performance', () => {
+  // tests
+})
+
+// ❌ Incorrect - too generic
+describe('Component', () => {
+  // tests
+})
+```
+
+**Naming Pattern:**
+- Format: `'SectionName ComponentName Component'` or `'Module Section ComponentName'`
+- Include enough context to identify where the component is located
+- For nested components, include the full path: `'Module Section Subsection ComponentName'`
+- Always end with the component name (optionally add "Component" suffix for clarity)
+
+### Factory Pattern
+
+Use a factory function to create wrappers with configurable parameters:
+
+```typescript
+const factory = (props = {}, storeState = {}) => {
+  const wrapper = mount(Component, {
+    global: {
+      plugins: [
+        i18n,
+        createTestingPinia({
+          createSpy: vi.fn,
+          initialState: {
+            'store-name': storeState,
+          },
+        }),
+      ],
+      stubs: {
+        // component mocks
+      },
+    },
+    props: { ...props },
+  })
+
+  const store = useStore()
+
+  return { wrapper, store }
+}
+```
+
+### beforeEach
+
+Always clear mocks before each test:
+
+```typescript
+beforeEach(() => {
+  vi.clearAllMocks()
+})
+```
+
+## Component Mounting
+
+### Using mount
+
+Use `mount` from `@vue/test-utils` to mount components:
+
+```typescript
+const wrapper = mount(Component, {
+  global: {
+    plugins: [i18n, createTestingPinia({ createSpy: vi.fn })],
+  },
+  props: {
+    propName: 'value',
+  },
+})
+```
+
+### Configuring Plugins
+
+Connect necessary plugins:
+
+- `i18n` - for internationalization
+- `createTestingPinia` - for testing Pinia stores
+
+```typescript
+global: {
+  plugins: [
+    i18n,
+    createTestingPinia({
+      createSpy: vi.fn,
+      initialState: {
+        'store-name': {
+          // initial store state
+        },
+      },
+    }),
+  ],
+}
+```
+
+### Stubs for Child Components
+
+Create stubs for child components to isolate the component under test:
+
+```typescript
+stubs: {
+  ChildComponent: {
+    name: 'ChildComponent',
+    template: '<div data-test="child-component"></div>',
+    props: ['prop1', 'prop2'],
+    emits: ['update:modelValue'],
+  },
+}
+```
+
+## Element Selectors
+
+### Using data-test Attributes
+
+Always use `data-test` attributes instead of classes or other selectors:
+
+```typescript
+// ✅ Correct
+expect(wrapper.find('[data-test="component-name"]').exists()).toBe(true)
+
+// ❌ Incorrect
+expect(wrapper.find('.component-class').exists()).toBe(true)
+expect(wrapper.find('#component-id').exists()).toBe(true)
+```
+
+### Finding Elements and Components
+
+```typescript
+// Find element by data-test
+const element = wrapper.find('[data-test="element-name"]')
+
+// Find component
+const component = wrapper.findComponent({ name: 'ComponentName' })
+const componentByDataTest = wrapper.findComponent('[data-test="component-name"]')
+
+// Check existence
+expect(element.exists()).toBe(true)
+expect(component.exists()).toBe(false)
+```
+
+## Mocks
+
+### Mocking Modules
+
+Use `vi.mock()` to mock modules at the beginning of the file:
+
+```typescript
+vi.mock('@/core/helpers')
+vi.mock('@/modules/.../api')
+vi.mock('vue-router', async () => {
+  const actual = await vi.importActual<typeof import('vue-router')>('vue-router')
+  return {
+    ...actual,
+    useRoute: vi.fn(),
+    useRouter: vi.fn(),
+  }
+})
+```
+
+### Component Mocks
+
+Create mock components with `data-test` attributes:
+
+```typescript
+const mockComponent = {
+  name: 'ComponentName',
+  template: '<div data-test="component-name"><slot /></div>',
+  props: ['modelValue', 'disabled'],
+  emits: ['update:modelValue'],
+}
+```
+
+For multiple components, use a loop:
+
+```typescript
+const formComponents = ['FormTitle', 'FormDescription', 'FormPlatform']
+
+const formComponentMocks: Record<string, any> = {}
+formComponents.forEach(component => {
+  formComponentMocks[component] = {
+    name: component,
+    template: `<div data-test="${component}"></div>`,
+    props: ['modelValue'],
+    emits: ['update:modelValue'],
+  }
+})
+```
+
+### Mocking Stores
+
+Use `createTestingPinia` to mock stores:
+
+```typescript
+createTestingPinia({
+  createSpy: vi.fn,
+  initialState: {
+    'store-name': {
+      data: null,
+      loading: false,
+    },
+  },
+})
+```
+
+After mounting, you can access the store and change its state:
+
+```typescript
+const store = useStore()
+store.data = mockData
+await nextTick()
+```
+
+### API Endpoint Mocks
+
+Mock API modules to isolate the component from real API calls:
+
+```typescript
+import * as ApiModule from '@/modules/.../api'
+import type { Mock } from 'vitest'
+
+vi.mock('@/modules/.../api')
+```
+
+In tests, use `mockResolvedValueOnce` for successful responses and `mockRejectedValueOnce` for errors:
+
+```typescript
+// Successful response
+(ApiModule.getData as Mock).mockResolvedValueOnce(mockData)
+
+// Error
+const error = new Error('API Error')
+(ApiModule.getData as Mock).mockRejectedValueOnce(error)
+```
+
+Verify API method calls:
+
+```typescript
+expect(ApiModule.getData).toHaveBeenCalledWith(param1, param2)
+expect(ApiModule.getData).toHaveBeenCalledTimes(1)
+```
+
+### Data Mocks
+
+Create constants with test data at the beginning of the test file:
+
+```typescript
+// Simple data mocks
+const mockSegment = {
+  id: 1,
+  title: 'Gaming Segment',
+  streamers: [
+    { id: 1, name: 'Streamer 1' },
+    { id: 2, name: 'Streamer 2' },
+  ],
+} as ISegment
+
+const mockCreative = {
+  title: 'Test Creative Title',
+  slug: 'creative-123',
+}
+```
+
+Use fixtures from `fixtures/` folders in API modules:
+
+```typescript
+import { performanceCampaign } from '@/modules/Partner/views/FormCampaign/api/getPerformanceCampaign/fixtures/performanceCampaign'
+import { performanceAdset } from '@/modules/Partner/views/FormAdset/api/getPerformanceAdset/fixtures/performanceAdset'
+
+// Usage in tests
+formCampaignStore.campaign = performanceCampaign
+formAdsetStore.adset = performanceAdset
+```
+
+Data mocks should contain only the minimum necessary fields for the test. Don't create excessive data.
+
+## Behavior Testing
+
+### Testing Props
+
+Verify prop passing and usage:
+
+```typescript
+it('receives and uses props correctly', () => {
+  const { wrapper } = factory({
+    modelValue: { title: 'Test' },
+  })
+
+  expect(wrapper.props('modelValue').title).toBe('Test')
+})
+```
+
+### Testing Events (Emits)
+
+Verify event emission:
+
+```typescript
+it('emits update:modelValue when value changes', async () => {
+  const { wrapper } = factory()
+  const input = wrapper.find('[data-test="input"]')
+
+  await input.setValue('new value')
+
+  expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+  expect(wrapper.emitted('update:modelValue')[0]).toEqual(['new value'])
+})
+```
+
+### Testing Conditional Rendering
+
+Use `nextTick()` to wait for DOM updates after changing reactive data:
+
+```typescript
+it('renders component when condition is met', async () => {
+  const { wrapper, store } = factory()
+
+  store.currentCampaignType = CampaignType.BRAND_AWARENESS
+  await nextTick()
+
+  expect(wrapper.find('[data-test="brand-awareness-form"]').exists()).toBe(true)
+  expect(wrapper.find('[data-test="performance-form"]').exists()).toBe(false)
+})
+```
+
+### Testing Store Interactions
+
+Verify store changes and component reactions:
+
+```typescript
+it('updates when store changes', async () => {
+  const { wrapper, store } = factory()
+
+  expect(wrapper.find('[data-test="component"]').exists()).toBe(false)
+
+  store.data = mockData
+  await nextTick()
+
+  expect(wrapper.find('[data-test="component"]').exists()).toBe(true)
+})
+```
+
+## Examples
+
+### Complete Factory Function Example
+
+```typescript
+describe('FormComponent', () => {
+  const factory = (routeName = RouteName.CREATE, storeState = {}) => {
+    vi.mocked(useRoute).mockReturnValue({
+      name: routeName,
+      params: {},
+      query: {},
+    } as any)
+
+    const wrapper = mount(FormComponent, {
+      global: {
+        plugins: [
+          i18n,
+          createTestingPinia({
+            createSpy: vi.fn,
+            initialState: {
+              'form-store': {
+                currentType: null,
+                ...storeState,
+              },
+            },
+          }),
+        ],
+        stubs: {
+          ElForm: {
+            name: 'ElForm',
+            template: '<form><slot /></form>',
+          },
+          FormField: {
+            name: 'FormField',
+            template: '<div data-test="form-field"></div>',
+            props: ['modelValue'],
+          },
+        },
+      },
+    })
+
+    const formStore = useFormStore()
+
+    if (routeName === RouteName.EDIT) {
+      formStore.data = mockData
+    }
+
+    return { wrapper, formStore }
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('renders form in create mode', () => {
+    const { wrapper } = factory()
+    expect(wrapper.find('[data-test="form"]').exists()).toBe(true)
+  })
+})
+```
+
+### API Mocks Test Example
+
+```typescript
+import * as SegmentsApi from '@/modules/Partner/views/Segments/api'
+import type { Mock } from 'vitest'
+
+vi.mock('@/modules/Partner/views/Segments/api')
+
+describe('Component with API', () => {
+  const mockSegment = {
+    id: 1,
+    title: 'Test Segment',
+  } as ISegment
+
+  it('fetches and displays data', async () => {
+    (SegmentsApi.getSegment as Mock).mockResolvedValueOnce(mockSegment)
+
+    const { wrapper } = factory()
+    await nextTick()
+
+    expect(wrapper.find('[data-test="segment-title"]').text()).toBe('Test Segment')
+    expect(SegmentsApi.getSegment).toHaveBeenCalledWith(1)
+  })
+
+  it('handles API error', async () => {
+    const error = new Error('API Error')
+    (SegmentsApi.getSegment as Mock).mockRejectedValueOnce(error)
+
+    const { wrapper } = factory()
+    await nextTick()
+
+    expect(wrapper.find('[data-test="error"]').exists()).toBe(true)
+  })
+})
+```
+
+### Conditional Rendering Test Example
+
+```typescript
+it('renders different components based on store state', async () => {
+  const { wrapper, store } = factory()
+
+  // Initially nothing is rendered
+  expect(wrapper.find('[data-test="form"]').exists()).toBe(false)
+
+  // BrandAwareness is rendered
+  store.currentCampaignType = CampaignType.BRAND_AWARENESS
+  await nextTick()
+  expect(wrapper.find('[data-test="brand-awareness-form"]').exists()).toBe(true)
+  expect(wrapper.find('[data-test="performance-form"]').exists()).toBe(false)
+
+  // Changes to Performance
+  store.currentCampaignType = CampaignType.PERFORMANCE
+  await nextTick()
+  expect(wrapper.find('[data-test="brand-awareness-form"]').exists()).toBe(false)
+  expect(wrapper.find('[data-test="performance-form"]').exists()).toBe(true)
+})
+```

@@ -1,0 +1,43 @@
+import type { IAgency, IAgencyResponse } from './types'
+
+export const responseToData = (response: IAgencyResponse): IAgency => ({
+	id: response.id,
+	title: response.title,
+	description: response.description,
+	streamersParticipate: response.streamers_participate,
+	useDarkMarket: response.use_dark_market,
+	commission: response.commission || null,
+	cpm: {
+		externalCpm: response.cost_per_mille.external_cpm || null,
+		internalCpm: response.cost_per_mille.internal_cpm || null,
+		externalCpa: response.cost_per_mille.external_cpa || null,
+		internalCpa: response.cost_per_mille.internal_cpa || null,
+		externalCpc: response.cost_per_mille.external_cpc || null,
+		internalCpc: response.cost_per_mille.internal_cpc || null,
+		darkMarketExternalCpm: response.cost_per_mille.dark_market_external_cpm || null,
+		darkMarketInternalCpm: response.cost_per_mille.dark_market_internal_cpm || null,
+		darkMarketExternalCpa: response.cost_per_mille.dark_market_external_cpa || null,
+		darkMarketInternalCpa: response.cost_per_mille.dark_market_internal_cpa || null,
+		darkMarketExternalCpc: response.cost_per_mille.dark_market_external_cpc || null,
+		darkMarketInternalCpc: response.cost_per_mille.dark_market_internal_cpc || null,
+	},
+	ignoredCategories: response.ignore_categories,
+	wallet: {
+		balance: response.wallet.balance,
+		currency: response.wallet.currency,
+		icon: response.wallet.icon,
+	},
+	billingRequisites: {
+		name: response.billing_requisites.name,
+		email: response.billing_requisites.email,
+		address: response.billing_requisites.address,
+		phone: response.billing_requisites.phone,
+		bankName: response.billing_requisites.bank_name,
+		bankAccountName: response.billing_requisites.bank_account_name,
+		bankAccountHolderAddress: response.billing_requisites.bank_account_holder_address,
+		bankAddress: response.billing_requisites.bank_address,
+		bankAccountNumber: response.billing_requisites.bank_account_number,
+		swiftCode: response.billing_requisites.swift_code,
+		routingNumber: response.billing_requisites.routing_number,
+	},
+})

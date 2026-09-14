@@ -1,0 +1,8 @@
+export { default as ChatbotText } from './ChatbotText/ChatbotText.vue'
+export { default as Custom } from './Custom/Custom.vue'
+export { default as Fullscreen } from './Fullscreen/Fullscreen.vue'
+export { default as Pip } from './Pip/Pip.vue'
+export { default as Wrapper } from './Wrapper/Wrapper.vue'
+export { default as YandexFS } from './YandexFS/YandexFS.vue'
+export { default as YandexText } from './YandexText/YandexText.vue'
+export { default as CpmStar } from './CpmStar/CpmStar.vue'

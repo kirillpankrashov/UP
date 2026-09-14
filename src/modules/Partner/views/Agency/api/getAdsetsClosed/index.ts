@@ -1,0 +1,1 @@
+export { getAdsetsClosed } from './api'

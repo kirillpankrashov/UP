@@ -1,0 +1,1 @@
+export { detachReferral } from './api'

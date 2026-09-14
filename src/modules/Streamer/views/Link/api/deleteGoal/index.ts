@@ -1,0 +1,1 @@
+export { deleteGoal } from './api'

@@ -1,0 +1,1 @@
+export { saveLocale } from './api'

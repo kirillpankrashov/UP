@@ -1,0 +1,76 @@
+---
+description: Component and section folder structure for Vue components
+globs: **/*.vue
+alwaysApply: false
+---
+
+# Component Structure
+
+## Rule
+
+- **Reusable components** → `components/` folder
+- **Non-reusable UI blocks** → `sections/` folder, re-exported via `sections/index.ts`
+
+## components/ — Reusable
+
+Components used in multiple places across the app or within a module.
+
+**Structure:**
+```
+ComponentName/
+  ComponentName.vue
+components/
+  index.ts  # barrel export
+```
+
+**Examples from project:**
+- `src/components/` — AppLogo, AuthButton, CopyLink, StatCard, etc.
+- `src/modules/Widget/components/` — WarningMessage
+- `src/modules/Streamer/components/` — ReloginMessage
+
+**Export format:**
+```typescript
+// components/index.ts
+export { default as ComponentName } from './ComponentName/ComponentName.vue'
+```
+
+**Usage:** Import from barrel (`@/components`, `@/modules/Widget/components`) or parent path.
+
+---
+
+## sections/ — Non-reusable
+
+Feature-specific UI blocks used only within their parent. Always re-export in `sections/index.ts`.
+
+**Structure:**
+```
+sections/
+  SectionName/
+    SectionName.vue
+  index.ts  # barrel export
+```
+
+**Examples from project:**
+- `src/modules/Widget/sections/Creatives/sections/` — Custom, Fullscreen, Wrapper, Pip, CpmStar...
+- `src/modules/Debug/sections/PusherLog/sections/` — Widget, ObsWebSocket, Sessions, LogEventActions...
+- `src/modules/Streamer/views/Campaigns/components/AdsetCard/sections/` — Toggle, Tags, Indicators
+- `src/modules/Widget/sections/Creatives/sections/Wrapper/sections/` — AdvertState, Loader, QrCode
+
+**Export format:**
+```typescript
+// sections/index.ts
+export { default as SectionName } from './SectionName/SectionName.vue'
+```
+
+**Usage:** Parent imports from `./sections`:
+```typescript
+import { Custom, Fullscreen, Wrapper } from './sections'
+```
+
+---
+
+## Checklist
+
+- [ ] Reusable? → add to `components/` and `components/index.ts`
+- [ ] Feature-specific? → add to `sections/` and `sections/index.ts`
+- [ ] Component name matches folder: `SectionName/SectionName.vue`

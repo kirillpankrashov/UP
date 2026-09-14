@@ -1,0 +1,1 @@
+export { getSegments } from './api'

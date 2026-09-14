@@ -1,0 +1,1 @@
+export { getGoal } from './api'

@@ -1,0 +1,141 @@
+---
+description: Import rules for TypeScript and Vue files
+globs: **/*.{ts,tsx,vue}
+alwaysApply: false
+---
+
+# Import Rules
+
+## Import Order
+
+Imports should be sorted in the following order (with empty lines between groups):
+
+1. **CSS/Styles** - style imports
+2. **Vue and external packages** - `vue`, `@sentry/vue`, `moment`, `lodash`, etc.
+3. **Internal packages** (in the specified order):
+   - `@/core/types` - types from core
+   - `@/core` - other imports from core
+   - `@/components` - project components
+   - `@/components/element-plus` - element-plus UI library components (re-export for customization)
+   - `@/components/layouts` - layout components (if used)
+   - `@/modules` - modules
+4. **Side effect imports** - imports only for side effects
+5. **Parent imports** - `../`
+6. **Relative imports** - `./`
+
+## Examples
+
+### ✅ Correct
+
+```typescript
+import '@/assets/css/style.css'
+
+import { ref, computed } from 'vue'
+import moment from 'moment'
+import * as Sentry from '@sentry/vue'
+
+import type { IWidget } from '@/core/types'
+import { Logger } from '@/core/helpers'
+import { TextLink } from '@/components'
+import { ElButton, ElForm, ElFormItem, ElInput } from '@/components/element-plus'
+import { DashboardSection } from '@/components/layouts'
+import { Widget } from '@/modules/Widget/class/Widget'
+
+import { streamerAuthorize } from './api/streamerAuthorize'
+```
+
+```typescript
+import { ref } from 'vue'
+
+import { Logger } from '@/core/helpers'
+import { CopyLink } from '@/components'
+import { ElButton } from '@/components/element-plus'
+
+import { streamerAuthorize } from './api/streamerAuthorize'
+```
+
+### ❌ Incorrect
+
+```typescript
+// Wrong order - external packages after internal ones
+import { Logger } from '@/core/helpers'
+import { ref } from 'vue'
+
+// No grouping separation
+import { ref } from 'vue'
+import { Logger } from '@/core/helpers'
+import { streamerAuthorize } from './api/streamerAuthorize'
+
+// Wrong order of internal packages
+import { Widget } from '@/modules/Widget/class/Widget'
+import { Logger } from '@/core/helpers'
+```
+
+## Import Types
+
+### Using `import type`
+
+For imports that are used only as types, use `import type`:
+
+```typescript
+// ✅ Correct
+import type { IWidget, ICreative } from '@/core/types'
+import type { LayerSettings } from '@/modules/Widget/types'
+
+// ❌ Incorrect (if used only as a type)
+import { IWidget } from '@/core/types'
+```
+
+### Named vs namespace imports
+
+```typescript
+// ✅ Named imports for specific exports
+import { Logger } from '@/core/helpers'
+import { Widget } from '@/modules/Widget/class/Widget'
+
+// ✅ Namespace import for modules with multiple exports
+import * as WidgetApi from '@/modules/Widget/api'
+import * as Sentry from '@sentry/vue'
+```
+
+## Path Aliases
+
+Use the `@/` alias for imports from `src/`:
+
+```typescript
+// ✅ Correct
+import { Logger } from '@/core/helpers'
+import { Widget } from '@/modules/Widget/class/Widget'
+
+// ❌ Incorrect
+import { Logger } from '../../core/helpers'
+```
+
+## Importing element-plus UI Library
+
+element-plus UI library components are imported not from `node_modules`, but from `@/components/element-plus`. This is done to enable component customization within the project through re-export.
+
+```typescript
+// ✅ Correct - import from project re-export
+import { ElButton, ElForm, ElFormItem, ElInput } from '@/components/element-plus'
+
+// ❌ Incorrect - direct import from node_modules
+import { ElButton } from 'element-plus'
+import ElButton from 'element-plus/lib/components/button'
+```
+
+Library components should be imported in the **Internal packages** group after regular components from `@/components`, but before `@/components/layouts` (if used):
+
+```typescript
+import { ref } from 'vue'
+
+import { Logger } from '@/core/helpers'
+import { TextLink } from '@/components'
+import { ElButton, ElInput } from '@/components/element-plus'
+import { DashboardSection } from '@/components/layouts'
+import { Widget } from '@/modules/Widget/class/Widget'
+```
+
+## Automatic Sorting
+
+The project uses `eslint-plugin-simple-import-sort` for automatic import sorting. When saving a file, imports should be automatically sorted according to these rules.

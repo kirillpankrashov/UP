@@ -1,0 +1,1 @@
+export { default as ReferralCheck } from './ReferralCheck.vue'

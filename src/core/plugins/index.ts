@@ -1,0 +1,1 @@
+export { RollbarPlugin } from './rollbar'

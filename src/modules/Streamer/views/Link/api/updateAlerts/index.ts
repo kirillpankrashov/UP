@@ -1,0 +1,1 @@
+export { updateAlerts } from './api'

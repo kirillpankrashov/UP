@@ -1,0 +1,1 @@
+export { getRouterLink } from './getRouterLink'

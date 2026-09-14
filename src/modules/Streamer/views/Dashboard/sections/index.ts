@@ -1,0 +1,5 @@
+export { default as Greeting } from './Greeting/Greeting.vue'
+export { default as Setup } from './Setup/Setup.vue'
+export { default as Loyalty } from './Loyalty/Loyalty.vue'
+export { default as Resources } from './Resources/Resources.vue'
+export { default as Values } from './Values/Values.vue'

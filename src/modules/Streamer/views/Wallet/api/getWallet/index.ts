@@ -1,0 +1,1 @@
+export { getWallet } from './api'

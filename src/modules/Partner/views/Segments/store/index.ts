@@ -1,0 +1,1 @@
+export { useSegmentsStore } from './segments/segments'

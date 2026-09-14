@@ -1,0 +1,1 @@
+export { getTopByPeriod } from './api'

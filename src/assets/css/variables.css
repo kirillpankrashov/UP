@@ -1,0 +1,120 @@
+:root {
+	--el-color-white: #FFFFFF;
+	--el-color-black: #1a1a1a;
+	--el-color-gray: #909399;
+	--el-color-light-gray: #afafaf;
+	--el-color-lightest-gray: #cccccc;
+	--el-color-dark-gray: #666666;
+
+	--el-color-primary-rgb: 64, 158, 255;
+	--el-color-success-rgb: 103, 194, 58;
+	--el-color-warning-rgb: 230, 162, 60;
+	--el-color-danger-rgb: 245, 108, 108;
+	--el-color-error-rgb: 245, 108, 108;
+	--el-color-info-rgb: 144, 147, 153;
+
+	--el-font-size-extra-large: 20px;
+	--el-font-size-large: 18px;
+	--el-font-size-medium: 16px;
+	--el-font-size-base: 14px;
+	--el-font-size-small: 13px;
+	--el-font-size-extra-small: 12px;
+	--el-font-family: Inter, 'Helvetica Neue', 'HelveticaNeue', Arial, sans-serif;
+	--el-font-weight-primary: 500;
+	--el-font-line-height-primary: 24px;
+
+	--el-index-normal: 1;
+	--el-index-top: 1000;
+	--el-index-popper: 2000;
+
+	--el-border-radius-base: 4px;
+	--el-border-radius-small: 2px;
+	--el-border-radius-round: 20px;
+	--el-border-radius-circle: 100%;
+
+	--el-transition-duration: 0.3s;
+	--el-transition-duration-fast: 0.2s;
+	--el-transition-function-ease-in-out-bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
+	--el-transition-function-fast-bezier: cubic-bezier(0.23, 1, 0.32, 1);
+	--el-transition-all: all var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+	--el-transition-fade: opacity var(--el-transition-duration) var(--el-transition-function-fast-bezier);
+	--el-transition-md-fade: transform var(--el-transition-duration) var(--el-transition-function-fast-bezier),
+		opacity var(--el-transition-duration) var(--el-transition-function-fast-bezier);
+	--el-transition-fade-linear: opacity var(--el-transition-duration-fast) linear;
+	--el-transition-border: border-color var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier);
+	--el-transition-box-shadow: box-shadow var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier);
+	--el-transition-color: color var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier);
+
+	--el-component-size-large: 48px;
+	--el-component-size: 32px;
+	--el-component-size-small: 24px;
+
+	--color-twitch: hsl(264, 79%, 53%);
+	--color-twitch-lightest: hsl(264, 79%, 98%);
+	--color-twitch-lighter: hsl(264, 79%, 95%);
+	--color-twitch-darker: hsl(264, 79%, 33%);
+
+	--color-youtube: hsl(0, 100%, 50%);
+	--color-youtube-lightest: hsl(0, 100%, 98%);
+	--color-youtube-lighter: hsl(0, 100%, 95%);
+	--color-youtube-darker: hsl(0, 100%, 30%);
+
+	--color-trovo: hsl(150, 69%, 42%);
+	--color-trovo-lightest: hsl(150, 69%, 98%);
+	--color-trovo-lighter: hsl(150, 69%, 95%);
+	--color-trovo-darker: hsl(150, 69%, 22%);
+
+	--color-discord: hsl(235, 86%, 65%);
+	--color-discord-lightest: hsl(235, 86%, 98%);
+	--color-discord-lighter: hsl(235, 86%, 95%);
+	--color-discord-darker: hsl(235, 86%, 45%);
+
+	--color-vkplay: hsl(212 100% 50%);
+	--color-vkplay-lightest: hsl(212, 100%, 98%);
+	--color-vkplay-lighter: hsl(212, 100%, 95%);
+	--color-vkplay-darker: hsl(236 100% 26.67%);
+
+	--color-tiktok: hsl(0, 0%, 100%);
+	--color-tiktok-lightest: hsl(0, 0%, 95%);
+	--color-tiktok-lighter: hsl(0, 0%, 92%);
+	--color-tiktok-darker: hsl(0, 0%, 0%);
+}
+
+html.dark {
+	--el-color-white: #1a1a1a;
+	--el-color-black: #E5EAF3;
+	--el-color-gray: #6C6E72;
+	--el-color-light-gray: #4C4D4F;
+	--el-color-lightest-gray: #363637;
+	--el-color-dark-gray: #A3A6AD;
+
+	--color-twitch: hsl(264, 79%, 63%);
+	--color-twitch-lightest: hsl(264, 30%, 15%);
+	--color-twitch-lighter: hsl(264, 30%, 20%);
+	--color-twitch-darker: hsl(264, 79%, 73%);
+
+	--color-youtube: hsl(0, 80%, 55%);
+	--color-youtube-lightest: hsl(0, 30%, 15%);
+	--color-youtube-lighter: hsl(0, 30%, 20%);
+	--color-youtube-darker: hsl(0, 80%, 65%);
+
+	--color-trovo: hsl(150, 60%, 50%);
+	--color-trovo-lightest: hsl(150, 30%, 15%);
+	--color-trovo-lighter: hsl(150, 30%, 20%);
+	--color-trovo-darker: hsl(150, 60%, 60%);
+
+	--color-discord: hsl(235, 70%, 70%);
+	--color-discord-lightest: hsl(235, 30%, 15%);
+	--color-discord-lighter: hsl(235, 30%, 20%);
+	--color-discord-darker: hsl(235, 70%, 80%);
+
+	--color-vkplay: hsl(212, 80%, 60%);
+	--color-vkplay-lightest: hsl(212, 30%, 15%);
+	--color-vkplay-lighter: hsl(212, 30%, 20%);
+	--color-vkplay-darker: hsl(212, 80%, 70%);
+
+	--color-tiktok: hsl(0, 0%, 10%);
+	--color-tiktok-lightest: hsl(0, 0%, 15%);
+	--color-tiktok-lighter: hsl(0, 0%, 20%);
+	--color-tiktok-darker: hsl(0, 0%, 90%);
+}

@@ -1,0 +1,1 @@
+export { updateSegment } from './api'

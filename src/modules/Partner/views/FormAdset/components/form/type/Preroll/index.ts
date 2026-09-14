@@ -1,0 +1,1 @@
+export { default as FormVideoText } from './FormVideoText/FormVideoText.vue'

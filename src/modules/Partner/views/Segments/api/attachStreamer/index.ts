@@ -1,0 +1,1 @@
+export { attachStreamer } from './api'

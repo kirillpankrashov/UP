@@ -1,0 +1,1 @@
+export { default as TypeItem } from './TypeItem/TypeItem.vue'
