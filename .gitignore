@@ -1,0 +1,10 @@
+.DS_Store
+**/.DS_Store
+.vscode/
+**/.vscode/
+.env
+.env.*
+!.env.example
+dist/
+coverage/
+node_modules/
